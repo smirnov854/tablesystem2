@@ -33,8 +33,7 @@
         </div>
         <div class="form-group col-lg-4 float-left">
             <label for="date_start" class="col-lg-3 float-left">Дата от</label>
-            <date-picker v-model='date_start' :config='options' ></date-picker> 
-            <input class="form-control col-lg-6 float-left" type="text" v-model='date_from'>
+            <date-picker v-model='date_from' :config='options' ></date-picker>
             <div class="clearfix"></div>
             <label for="date_end" class="col-lg-3 float-left">Дата по</label>
             <input class="form-control col-lg-6 float-left" type="text" v-model='date_to'>
