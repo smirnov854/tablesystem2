@@ -127,7 +127,7 @@
         data: {
             options: {
                 // https://momentjs.com/docs/#/displaying/
-                format: 'DD.MM.YYYY H:mm:ss',
+                //format: 'DD.MM.YYYY H:mm:ss',
                 useCurrent: false,
                 showClear: true,
                 showClose: true,
