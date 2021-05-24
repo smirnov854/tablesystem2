@@ -1,3 +1,28 @@
+<!-- Date-picker itself -->
+<script src="https://cdn.jsdelivr.net/npm/pc-bootstrap4-datetimepicker@4.17/build/js/bootstrap-datetimepicker.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/pc-bootstrap4-datetimepicker@4.17/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue-bootstrap-datetimepicker@5"></script>
+
+
+<script>
+    // Initialize as global component
+    Vue.component('date-picker', VueBootstrapDatetimePicker);
+    $.extend(true, $.fn.datetimepicker.defaults, {
+        icons: {
+            time: 'far fa-clock',
+            date: 'far fa-calendar',
+            up: 'fas fa-arrow-up',
+            down: 'fas fa-arrow-down',
+            previous: 'fas fa-chevron-left',
+            next: 'fas fa-chevron-right',
+            today: 'fas fa-calendar-check',
+            clear: 'far fa-trash-alt',
+            close: 'far fa-times-circle'
+        }
+    });
+</script>
+
+
 <div id="request_controller" class="justify-content-center mx-4 my-4">
     <div>
         <div class="form-group col-lg-4 float-left">
@@ -8,6 +33,7 @@
         </div>
         <div class="form-group col-lg-4 float-left">
             <label for="date_start" class="col-lg-3 float-left">Дата от</label>
+            <date-picker v-model='date_start' :config='options' ></date-picker> 
             <input class="form-control col-lg-6 float-left" type="text" v-model='date_from'>
             <div class="clearfix"></div>
             <label for="date_end" class="col-lg-3 float-left">Дата по</label>
