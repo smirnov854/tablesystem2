@@ -125,6 +125,13 @@
     el = new Vue({
         el: "#request_controller",
         data: {
+            options: {
+                // https://momentjs.com/docs/#/displaying/
+                format: 'DD.MM.YYYY H:mm:ss',
+                useCurrent: false,
+                showClear: true,
+                showClose: true,
+            },
             user_role_id: <?=$role_id?>,
             date_from: '',
             date_to: '',
