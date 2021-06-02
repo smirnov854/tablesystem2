@@ -20,7 +20,7 @@ class Login extends CI_Controller {
     {
         $this->session->sess_destroy();
         redirect("/login/show_login");
-    }
+    } 
 
     public function show_login()
     {
