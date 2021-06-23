@@ -6,7 +6,7 @@ $user_data = $this->session->userdata("user_data");
         <a class="navbar-brand text-white">LOGO</a>
         <div class="collapse-in navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="navbar-nav mr-auto">
-                <?php if ($user_data['role_id'] === 1): ?>
+                <?php if ($user_data->role_id === 1): ?>
                     <li class="nav-item"><a class="nav-link" href="/user/show_users">Пользователи</a></li>
                     <li class="nav-item"><a class="nav-link" href="/object">Объекты</a></li>
                     <li class="nav-item">
