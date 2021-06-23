@@ -196,23 +196,26 @@
                     this.error = errors.join(" ")
                     return;
                 }
-
+                let is_exist = false;
                 let formData = new FormData()
-                formData.append('file', this.$refs.file.files[0])
-
-                if (this.$refs.file.value) {
-                    var file = this.$refs.file.files[0];
-                    if (file.size > 10 * 1024 * 1024) {
-                        alert(file_max_size);
-                        return;
-                    }
-                    if (!this.check_extension(file.name)) {
-                        alert(error_file_message);
-                        return;
+                if(this._data.user_role_id == 3){
+                    if(this._data.file_1){
+                        formData.append('file', this.$refs.file.files[0])
+                        if (this.$refs.file.value) {
+                            var file = this.$refs.file.files[0];
+                            if (file.size > 10 * 1024 * 1024) {
+                                alert(file_max_size);
+                                return;
+                            }
+                            if (!this.check_extension(file.name)) {
+                                alert(error_file_message);
+                                return;
+                            }
+                        }
+                        is_exist = this.$refs.file.value;
                     }
                 }
-                let is_exist = this.$refs.file.value;
-
+                
                 axios.post("/work/add_new_job", {
                     type: this._data.new_job.type_id,
                     description: this._data.new_job.description,
