@@ -1,5 +1,6 @@
 <?php
 $user_data = $this->session->userdata("user_data");
+var_dump($user_data);
 ?>
 <div>
     <nav class="navbar navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-dark bg-dark">
