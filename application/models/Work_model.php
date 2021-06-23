@@ -14,6 +14,7 @@ class Work_model extends CI_Model
     {
         $offset=0;
         $sql = "SELECT req.*, 
+                       rf.file_path as file_path,
                        FROM_UNIXTIME(req.date_add) as date_add,
                        o.name as object_name, 
                        usr.name as add_user_name, 
@@ -21,12 +22,13 @@ class Work_model extends CI_Model
                        usr2.name as common_check_user,
                        usr3.name as check_user
                 FROM requests req
-                LEFT JOIN objects o ON o.id = req.object_id
+                LEFT JOIN request_files rf ON rf.request_id=req.id
+                LEFT JOIN objects o ON o.id = req.object_id                
                 LEFT JOIN type_of_work tof ON tof.id=req.type_id
                 LEFT JOIN users usr ON usr.id = req.id_user_add
                 LEFT JOIN users usr1 ON usr1.id = req.id_user_done
                 LEFT JOIN users usr2 ON usr2.id = req.id_user_common_check
-                LEFT JOIN users usr3 ON usr3.id = req.id_user_check
+                LEFT JOIN users usr3 ON usr3.id = req.id_user_check                
                 ";
         $where = [];
         if(!empty($search_params)){
@@ -47,9 +49,11 @@ class Work_model extends CI_Model
         if(!empty($where)){
             $where_str =" WHERE ". implode(" AND ",$where);
             $sql.=$where_str;
-        }  
-        
+        }
+
+        $sql.= " ORDER BY id DESC";
         $sql.= " LIMIT $offset,25";
+        
         $query = $this->db->query($sql);
         if (!$query) {
             return FALSE;
@@ -142,6 +146,10 @@ class Work_model extends CI_Model
             return FALSE;
         }
         return $query->result()[0];
+    }
+    
+    public function add_connection($req_id,$path){        
+        return $this->db->insert("request_files",["request_id"=>$req_id,"file_path"=>$path]);
     }
 
 }

@@ -23,7 +23,7 @@ class User extends CI_Controller
             $data = [
                 "login" => $this->input->post("user_name"),
                 "password" => $this->input->post("user_password"),
-            ];
+            ];            
             //$password = password_hash("admin", PASSWORD_BCRYPT);
             //$query = $this->db->insert("users",['email'=>"admin@admin.com","user_password"=>$password]);
             if (empty($data['login']) || empty($data['password'])) {
@@ -161,7 +161,7 @@ class User extends CI_Controller
                 "role_id"=>2,
                 "email"=>"test_client$i@test.com",
                 "name"=>"TEST client $i",
-                "password"=>password_hash("123123", PASSWORD_BCRYPT),
+                "password"=>password_hash("123", PASSWORD_BCRYPT),
                 //"password"=>password_hash("test_admin$i", PASSWORD_BCRYPT),                                
             ];
             $this->db->insert("users",$insert_array);
@@ -172,7 +172,7 @@ class User extends CI_Controller
                 "role_id"=>3,
                 "email"=>"test_worker$i@test.com",
                 "name"=>"TEST worker $i",
-                "password"=>password_hash("123123", PASSWORD_BCRYPT),          
+                "password"=>password_hash("123", PASSWORD_BCRYPT),          
             ];
             $this->db->insert("users",$insert_array);
         }

@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `users`(
   `password` VARCHAR(200),
   `role_id` INT
 );
-ALTER TABLE `u0507831_test`.`users` ADD INDEX (`role_id`);
+ALTER TABLE `users` ADD INDEX (`role_id`);
 
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE IF NOT EXISTS `role`(
@@ -38,8 +38,8 @@ CREATE TABLE IF NOT EXISTS `user_object`(
   `object_id` INT
 );
 
-ALTER TABLE `u0507831_test`.`user_object` ADD INDEX (`user_id`);
-ALTER TABLE `u0507831_test`.`user_object` ADD INDEX (`object_id`);
+ALTER TABLE `user_object` ADD INDEX (`user_id`);
+ALTER TABLE `user_object` ADD INDEX (`object_id`);
 
 DROP TABLE IF EXISTS `type_of_work`;
 CREATE TABLE IF NOT EXISTS `type_of_work`(
@@ -69,9 +69,17 @@ CREATE TABLE IF NOT EXISTS `requests`(
   `id_user_common_date` INT
 );
 
-ALTER TABLE `u0507831_test`.`requests` ADD INDEX (`type_id`);
-ALTER TABLE `u0507831_test`.`requests` ADD INDEX (`id_user_add`);
-ALTER TABLE `u0507831_test`.`requests` ADD INDEX (`object_id`);
-ALTER TABLE `u0507831_test`.`requests` ADD INDEX (`id_user_done`);
-ALTER TABLE `u0507831_test`.`requests` ADD INDEX (`id_user_common_check`);
+ALTER TABLE `requests` ADD INDEX (`type_id`);
+ALTER TABLE `requests` ADD INDEX (`id_user_add`);
+ALTER TABLE `requests` ADD INDEX (`object_id`);
+ALTER TABLE `requests` ADD INDEX (`id_user_done`);
+ALTER TABLE `requests` ADD INDEX (`id_user_common_check`);
+
+DROP TABLE IF EXISTS `request_files`;
+CREATE TABLE `request_files` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `request_id` INT,
+  `file_path` varchar(250),    
+   PRIMARY KEY(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -38,7 +38,7 @@ class Login extends CI_Controller {
                 throw new Exception("Необходимо заполнить поля логин и пароль!", 300);
             }
             //$password = password_hash("admin", PASSWORD_BCRYPT);
-           // $query = $this->db->insert("users",['email'=>"admin@admin.com","password"=>$password,"role_id"=>1]);
+            //$query = $this->db->insert("users",['email'=>"admin@admin.com","password"=>$password,"role_id"=>1]);
            // $data["password"] = password_hash($data["password"], PASSWORD_BCRYPT);
             $user = $this->user_model->login($data);
             if (empty($user)) {
@@ -51,7 +51,9 @@ class Login extends CI_Controller {
                 "email" => $user->email,
                 "role_id" => $user->role_id,
             ];
+            
             $this->session->set_userdata($session_array);
+           
             $result = array(
                 "status" => 200,
                 "message" => "Добро пожаловать"

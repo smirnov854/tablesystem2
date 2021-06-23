@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" uploadOnCheckin="1d45f016-f99e-475e-a469-da87296aa2f2" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="parsing_fgost">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../santonline" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="regru_telegrammbots">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/www/test.telegrammbots.ru" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="resenderbot">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myUploadOnCheckinName" value="regru_telegrammbots" />
+  </component>
+</project>

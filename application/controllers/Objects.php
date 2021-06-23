@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Object extends CI_Controller
+class Objects extends CI_Controller
 {
 
     public $menu_values = [];
