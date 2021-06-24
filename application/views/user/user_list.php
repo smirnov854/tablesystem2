@@ -13,13 +13,16 @@
         </thead>
         <tbody>
 
-        <tr v-for="{id,email,fio,role_name,object_cnt,object_ids,role_id} in users">
-            <td>{{id}}</td>
-            <td>{{email}}</td>
-            <td>{{fio}}</td>
-            <td>{{role_name}}</td>
-            <td>{{object_cnt}}</td>
-            <td><button class="btn btn-sm btn-success edit-user" v-on:click="edit_user(id,email,fio,role_name,object_ids,role_id)">Редактировать</button></td>
+        <tr v-for="(user, index) in users">
+            <td>{{user.id}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.fio}}</td>
+            <td>{{user.role_name}}</td>
+            <td>{{user.object_cnt}}</td>
+            <td>
+                <span class="fa fa-pencil edit-user" v-on:click="edit_user(user.id,user.email,user.fio,user.role_name,user.object_ids,user.role_id)"></span>
+                <span class="fa fa-remove edit-user" v-on:click="delete_user(index,user.id)"></span>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -145,8 +148,24 @@
                     }                    
                 }
                 this.$refs.add_button.click()
-                
-            }
+            },
+            delete_user : function(index,id){
+                this._data.users.splice(index,1);
+                axios.post("/user/set_delete/"+id,{
+                    id:id,
+                }).then(function (result) {
+                    switch(result.data.status){
+                        case 200:
+                            break;
+                        case 300:
+                            alert(result.message)
+                            break;
+                    }
+                }).catch(function (e) {
+                    console.log(e)
+                })
+            },
+                        
         }
     })
 </script>

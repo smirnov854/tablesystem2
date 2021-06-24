@@ -154,6 +154,26 @@ class User extends CI_Controller
         echo json_encode($result);
     }
 
+
+    public function set_delete($id){
+        try {
+            if(empty($id) || !is_numeric($id)){
+                throw new Exception("Ошибка получения id пользователя!",301);
+            }            
+            if(!$this->user_model->set_delete($id)){
+                throw new Exception('Ошибка простановки статуса Удален',302);
+            }
+            $result = [
+                "status" => 200,                
+            ];
+        } catch (Exception $ex) {
+            $result = array("message" => $ex->getMessage(),
+                "status" => $ex->getCode());
+        }
+        echo json_encode($result);
+    }
+    
+
     public function generate_data(){
         $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz';
         for($i = 1; $i<=50;$i++){

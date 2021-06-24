@@ -34,6 +34,17 @@
         }
     });
 </script>
+<style>
+    .img_container{
+        max-width: 150px;
+        max-height: 100px;
+        overflow: scroll;
+    }
+    .img_container img{
+        max-height: 99px;
+        max-width: 99px;
+    }
+</style>
 
 
 <div id="request_controller" class="justify-content-center mx-4 my-4">
@@ -81,7 +92,7 @@
                 <td>{{description}}</td>
                 <td></td>
                 <td>{{date_done}}</td>
-                <td><img v-if="file_path" v-bind:src="file_path" class="thumb" style="width:100px;height:100px"></td>
+                <td class="img_container"><img v-if="file_path" v-for="path in file_path" v-bind:src="path" class="thumb" style="width:100px;height:100px"></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -122,8 +133,8 @@
                         <date-picker class="form-control col-lg-8 col-md-8 col-sm-8 float-left datepicker" v-model='new_job.date_done' :config='options'></date-picker>
                     </div>
                     <div class="form-row col-lg-12 col-md-12 col-sm-12 float-left my-2" v-if="user_role_id==3">
-                        <label class="col-lg-2 col-md-2 col-sm-2 text-right" title="не более 5 документов. Максимальный размер 10 мб">Фото</label>
-                        <input type="file" ref='file' v-model="file_1">
+                        <label class="col-lg-2 col-md-2 col-sm-2 text-right" title="Максимальный размер 10 мб">Фото</label>
+                        <input type="file" ref='file' v-model="file_1" multiple>
                     </div>
 
                 </div>
@@ -150,13 +161,13 @@
             },
             user_role_id: <?=$role_id?>,
             date_from: '',
-            date_to: '',            
+            date_to: '',
             search_object_id: [],
             error: "",
-            file_1:"",
+            file_1: "",
             new_job: {
                 type_id: '',
-                object_id:'',
+                object_id: '',
                 description: '',
                 date_done: '',
             },
@@ -180,8 +191,12 @@
                     description: '<?=$row->description?>',
                     date_add: '<?=$row->date_add?>',
                     object_name: '<?=$row->object_name?>',
-                    file_path:'<?=$row->file_path?>',
-                    date_done:'<?=!empty($row->user_done_date) ? date("d.m.Y",$row->user_done_date) : ""?>'
+                    file_path: [
+                        <?php foreach(explode("||",$row->file_path) as $cur_file):?>
+                        '<?=$cur_file?>',
+                        <?php endforeach;?>
+                    ], 
+                    date_done: '<?=!empty($row->user_done_date) ? date("d.m.Y", $row->user_done_date) : ""?>'
                 },
                 <?php endforeach;?>
             ]
@@ -198,11 +213,13 @@
                 }
                 let is_exist = false;
                 let formData = new FormData()
-                if(this._data.user_role_id == 3){
-                    if(this._data.file_1){
-                        formData.append('file', this.$refs.file.files[0])
-                        if (this.$refs.file.value) {
-                            var file = this.$refs.file.files[0];
+                if (this._data.user_role_id == 3) {
+                    if (this._data.file_1) {
+                        let length = this.$refs.file.files.length                        
+                        let i = 0;
+                        for (i = 0; i < length; i++) {
+                            formData.append('file'+i, this.$refs.file.files[i])
+                            let file = this.$refs.file.files[i];                            
                             if (file.size > 10 * 1024 * 1024) {
                                 alert(file_max_size);
                                 return;
@@ -215,15 +232,14 @@
                         is_exist = this.$refs.file.value;
                     }
                 }
-                
                 axios.post("/work/add_new_job", {
                     type: this._data.new_job.type_id,
                     description: this._data.new_job.description,
                     object_id: this._data.new_job.object_id,
-                    date_done:this._data.new_job.date_done,
+                    date_done: this._data.new_job.date_done,
                 }).then(function (result) {
                     switch (result.data.status) {
-                        case 200:                            
+                        case 200:
                             if (is_exist) {
                                 axios.post("/work/upload_file/" + result.data.request_id, formData,
                                     {
@@ -295,7 +311,7 @@
                                     object_name: result.data.content[z].object_name,
                                     date_add: result.data.content[z].date_add,
                                     description: result.data.content[z].description,
-                                    
+
                                 }
                                 el._data.requests.push(newReq);
                             }

@@ -14,7 +14,8 @@ class User_model extends CI_Model
                 FROM users u
                 LEFT JOIN role r ON r.id=u.role_id
                 LEFT JOIN  user_object uo ON uo.user_id=u.id
-                LEFT JOIN objects o ON o.id=uo.object_id        
+                LEFT JOIN objects o ON o.id=uo.object_id  
+                WHERE u.is_delete IS NULL      
                 GROUP BY u.id        
                 ";
         $query = $this->db->query($sql);
@@ -116,6 +117,15 @@ class User_model extends CI_Model
             return FALSE;
         }
         return $query->result()[0];
+    }
+    
+    public function set_delete($id){        
+        if(empty($id) || !is_numeric($id)){
+            $res = FALSE;
+        }else{
+            $res = $this->db->where("id",$id)->update("users",["is_delete"=>1]);    
+        }
+        return $res;
     }
 
 }

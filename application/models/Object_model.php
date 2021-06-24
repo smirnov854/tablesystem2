@@ -12,12 +12,15 @@ class Object_model extends CI_Model
             $sql = "
                 SELECT o.* 
                 FROM objects o
+                WHERE is_delete IS NULL 
+                ORDER BY id DESC
                 ";
         }else{
             $sql = "SELECT o.* 
                 FROM objects o
                 LEFT JOIN user_object uo ON uo.object_id=o.id
-                WHERE uo.user_id=$user_id";
+                WHERE uo.user_id=$user_id AND is_delete IS NULL
+                ORDER BY id DESC";
         }
         
         $query = $this->db->query($sql);
@@ -46,6 +49,15 @@ class Object_model extends CI_Model
         $query = $this->db->get("role");
         return $query->result();
     }
+    
+    public function edit_object($id,$common_info){
+        if(empty($id) || !is_numeric($id)){
+            return false;
+        }
+        return $this->db->where("id",$id)->update("objects",$common_info);
+    }
+    
+    
 
 
     

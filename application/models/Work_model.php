@@ -14,7 +14,7 @@ class Work_model extends CI_Model
     {
         $offset=0;
         $sql = "SELECT req.*, 
-                       rf.file_path as file_path,
+                       GROUP_CONCAT(rf.file_path SEPARATOR '||') as file_path,
                        FROM_UNIXTIME(req.date_add) as date_add,
                        o.name as object_name, 
                        usr.name as add_user_name, 
@@ -50,10 +50,10 @@ class Work_model extends CI_Model
             $where_str =" WHERE ". implode(" AND ",$where);
             $sql.=$where_str;
         }
-
-        $sql.= " ORDER BY id DESC";
+        $sql.= "GROUP BY req.id ";
+        $sql.= " ORDER BY req.id DESC ";
         $sql.= " LIMIT $offset,25";
-        
+       // echo $sql;
         $query = $this->db->query($sql);
         if (!$query) {
             return FALSE;

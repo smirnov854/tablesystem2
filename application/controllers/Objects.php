@@ -32,20 +32,32 @@ class Objects extends CI_Controller
         $this->load->view("includes/footer");
     }
 
-    public function add_new_object() {
+    public function add_new_object($id) {
         $params = json_decode(file_get_contents('php://input'));        
         $common_info = array(
             "name" => $params->name,
-            "address" => $params->address
+            "address" => $params->address,
+            "description"=> $params->description,
         );
         try {
             if (empty($common_info['name']) || empty($common_info['address'])){
                 throw new Exception("Ошибка заполнения формы!", 300);
             }
-            $res = $this->object_model->add_new_object($common_info);
-            if (!$res) {
-                throw new Exception("Ошибка обращения к базе данных!", 2);
+            if(!empty($id)){
+                if(!is_numeric($id)){
+                    throw new Exception("Ошибка получени id!", 300);    
+                }
+                $res = $this->object_model->edit_object($id,$common_info);               
+                if (!$res) {
+                    throw new Exception("Ошибка обращения к базе данных!", 2);
+                }
+            }else{
+                $res = $this->object_model->add_new_object($common_info);
+                if (!$res) {
+                    throw new Exception("Ошибка обращения к базе данных!", 2);
+                }
             }
+            
             $result = [
                 "status" => 200,
                 "message" => "Объект добавлен!"
@@ -56,6 +68,25 @@ class Objects extends CI_Controller
         }
         echo json_encode($result);
     }
+
+    public function set_delete($id){
+        try {
+            if(empty($id) || !is_numeric($id)){
+                throw new Exception("Ошибка получения id!",301);
+            }
+            if(!$this->object_model->edit_object($id,['is_delete'=>1])){
+                throw new Exception('Ошибка простановки статуса Удален',302);
+            }
+            $result = [
+                "status" => 200,
+            ];
+        } catch (Exception $ex) {
+            $result = array("message" => $ex->getMessage(),
+                "status" => $ex->getCode());
+        }
+        echo json_encode($result);
+    }
+
 
     
     

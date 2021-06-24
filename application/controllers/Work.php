@@ -10,7 +10,7 @@ class Work extends CI_Controller
     public $tmp_name = "";
     public $size = 0;
     public $req_id = 0;
-    public $path_real = "uploads/";
+    public $path_real = "uploads";
     public $res_file_name = "";
     public $allow_ext = [
         "pdf","gif", "jpg","png", "zip","rar"
@@ -67,13 +67,11 @@ class Work extends CI_Controller
                 throw new Exception("Ошибка получения номера заявки!", 300);
             }
             $files = [];
-            
             foreach ($_FILES as $index=>$file) {
                 $this->name = $_FILES[$index]['name'];
                 $this->tmp_name = $_FILES[$index]['tmp_name'];
                 $this->size = $_FILES[$index]['size'];
-                $this->req_id = $request_id;
-
+                $this->req_id = $request_id;                
                 if(!$this->check_size()){
                     throw new Exception("Один из файлов превышает допустимый размер в 10 МБ",3);
                 }
@@ -88,6 +86,7 @@ class Work extends CI_Controller
                 }
                 
                 $res = $this->work_model->add_connection($this->req_id,$this->path_real);
+                $this->path_real= "uploads";
                 if(empty($res)){
                     throw new Exception("Ошибка добавления связи!",3);
                 }
@@ -173,6 +172,10 @@ class Work extends CI_Controller
         echo json_encode($result);
     }
 
+    
+    
+    
+    
     public function generate_data() {
         $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz';
         for ($i = 0; $i < 10000; $i++) {

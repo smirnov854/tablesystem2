@@ -20,22 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="38bbc89c-9845-484c-add2-086f1843426c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/css/main.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/config/database.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/config/database.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/config/database.sql" beforeDir="false" afterPath="$PROJECT_DIR$/application/config/database.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/Login.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Login.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/Object.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Objects.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/Objects.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Objects.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/User.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/Work.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Work.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/Object_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Object_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/User_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/User_model.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/models/Work_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Work_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/includes/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/includes/header.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/includes/menu.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/includes/menu.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/objects/object_list.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/objects/object_list.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/user/user_list.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/user/user_list.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/work/work_list.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/work/work_list.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -93,7 +87,8 @@
       <workItem from="1622782305590" duration="24000" />
       <workItem from="1624274623856" duration="620000" />
       <workItem from="1624392895434" duration="11296000" />
-      <workItem from="1624469645758" duration="5174000" />
+      <workItem from="1624469645758" duration="6479000" />
+      <workItem from="1624529606164" duration="12903000" />
     </task>
     <task id="LOCAL-00001" summary="create_project">
       <created>1621875925847</created>
@@ -193,7 +188,21 @@
       <option name="project" value="LOCAL" />
       <updated>1624434612883</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="file_upload">
+      <created>1624478956878</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1624478956878</updated>
+    </task>
+    <task id="LOCAL-00016" summary="file_upload">
+      <created>1624478982458</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1624478982458</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -213,18 +222,19 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="create_project" />
-    <option name="LAST_COMMIT_MESSAGE" value="create_project" />
+    <MESSAGE value="file_upload" />
+    <option name="LAST_COMMIT_MESSAGE" value="file_upload" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2472" y="197" key="#Deployment" timestamp="1621877279693">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2472" y="197" key="#Deployment/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1621877279693" />
-    <state x="390" y="26" width="745" height="891" key="CommitChangelistDialog2" timestamp="1624434612235">
-      <screen x="0" y="0" width="1280" height="980" />
+    <state x="2505" y="28" width="745" height="891" key="CommitChangelistDialog2" timestamp="1624478982007">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="390" y="26" width="745" height="891" key="CommitChangelistDialog2/0.0.1280.980@0.0.1280.980" timestamp="1624434612235" />
-    <state x="2505" y="28" width="749" height="945" key="CommitChangelistDialog2/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1622659109650" />
+    <state x="2505" y="28" width="749" height="945" key="CommitChangelistDialog2/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1624478982007" />
     <state x="493" y="265" key="FileChooserDialogImpl" timestamp="1624457505859">
       <screen x="0" y="0" width="1280" height="980" />
     </state>
@@ -234,11 +244,11 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2460" y="274" key="IDE.errors.dialog/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1621875975848" />
-    <state x="368" y="256" key="Vcs.Push.Dialog.v2" timestamp="1624434614722">
-      <screen x="0" y="0" width="1280" height="980" />
+    <state x="2472" y="272" key="Vcs.Push.Dialog.v2" timestamp="1624478983855">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="368" y="256" key="Vcs.Push.Dialog.v2/0.0.1280.980@0.0.1280.980" timestamp="1624434614722" />
-    <state x="2472" y="272" key="Vcs.Push.Dialog.v2/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1622659111705" />
+    <state x="2472" y="272" key="Vcs.Push.Dialog.v2/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1624478983855" />
     <state x="2779" y="269" width="465" height="541" key="ftp.server.browser" timestamp="1621877277713">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>

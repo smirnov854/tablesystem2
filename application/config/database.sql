@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS `users`(
   `email` VARCHAR(50),
   `name` VARCHAR(100),
   `password` VARCHAR(200),
-  `role_id` INT
+  `role_id` INT,
+  `is_delete` INT,
 );
 ALTER TABLE `users` ADD INDEX (`role_id`);
 
@@ -28,7 +29,9 @@ DROP TABLE IF EXISTS `objects`;
 CREATE TABLE IF NOT EXISTS `objects`(
   `id` INT PRIMARY KEY AUTO_INCREMENT,
   `name` VARCHAR(100),
-  `address` VARCHAR(250)
+  `address` VARCHAR(250),
+  `description` VARCHAR(500),
+  `is_delete` INT,
 );
 
 DROP TABLE IF EXISTS `user_object`;
