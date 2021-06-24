@@ -12,7 +12,8 @@ class Work_model extends CI_Model
     
     public function get_list($search_params = "")
     {
-        $offset=0;
+        extract($search_params);
+        $offset = 0;
         $sql = "SELECT req.*, 
                        GROUP_CONCAT(rf.file_path SEPARATOR '||') as file_path,
                        FROM_UNIXTIME(req.date_add) as date_add,
@@ -29,10 +30,9 @@ class Work_model extends CI_Model
                 LEFT JOIN users usr1 ON usr1.id = req.id_user_done
                 LEFT JOIN users usr2 ON usr2.id = req.id_user_common_check
                 LEFT JOIN users usr3 ON usr3.id = req.id_user_check                
-                ";
+                ";        
         $where = [];
         if(!empty($search_params)){
-            extract($search_params);
             if(!empty($objects)){
                 $object_string = implode(",",$objects);
                 $where[] =" o.id IN ($object_string)";
@@ -44,6 +44,10 @@ class Work_model extends CI_Model
             if(!empty($date_to)){
                 $where[] = " date_add< ".strtotime($date_to);
             }            
+        }
+        
+        if($role_id != 1){
+            $where[] = " req.object_id IN (SELECT object_id FROM user_object WHERE user_id = $user_id)";
         }
         
         if(!empty($where)){
@@ -113,8 +117,7 @@ class Work_model extends CI_Model
         if (!$user_id) {
             return FALSE;
         }
-        $query = $this->db->where("id", $user_id)
-            ->update("users", $data);
+        $query = $this->db->where("id", $user_id)->update("users", $data);
         if (!$query) {
             return FALSE;
         }

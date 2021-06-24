@@ -35,14 +35,19 @@
     });
 </script>
 <style>
-    .img_container{
-        max-width: 150px;
-        max-height: 100px;
+    tr.img_row{
+        max-height: 100px !important;
+        overflow: scroll;
+    }
+    td.img_container{
+        max-height: 100px !important;
+        max-width: 150px !important;        
         overflow: scroll;
     }
     .img_container img{
         max-height: 99px;
         max-width: 99px;
+        float:left;
     }
 </style>
 
@@ -77,22 +82,21 @@
                 <th>Добавлена</th>
                 <th>Описание</th>
                 <th>Работы</th>
-                <th>Дата сдачи</th>
-                <th>Фото</th>
                 <th>Cдал</th>
+                <th>Фото</th>                
                 <th>Проверил</th>
                 <th>Принял</th>
             </tr>
             </thead>
             <tbody>
-            <tr v-for="{id,date_add,description,object_name,date_done,file_path} in requests">
+            <tr class="img_row" v-for="{id,date_add,description,object_name,date_done,file_path} in requests">
                 <td>{{id}}</td>
                 <td>{{object_name}}</td>
                 <td>{{date_add}}</td>
                 <td>{{description}}</td>
                 <td></td>
                 <td>{{date_done}}</td>
-                <td class="img_container"><img v-if="file_path" v-for="path in file_path" v-bind:src="path" class="thumb" style="width:100px;height:100px"></td>
+                <td class="img_container"><img v-if="file_path" v-for="path in file_path" v-bind:src="'./'+path" class="thumb" style="width:100px;height:100px"></td>
                 <td></td>
                 <td></td>
                 <td></td>

@@ -1,5 +1,26 @@
-<div id="vue-container">
-    <button class="btn btn-primary add_users" data-toggle="modal" data-target="#add_user_modal" ref="add_button">Добавить</button>
+<div id="vue-container" class="container-fluid">
+    <div class="col-lg-8 col-md-8 col-sm-10 my-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-8 float-left">
+            <label class="col-lg-3 float-left">Роль</label>
+            <select class="col-lg-9 float-left form-control" v-model="role_search" class="form-control">
+                <option></option>
+                <option v-for="role in roles" :value="role.id">{{role.name}}</option>
+            </select>
+        </div>
+        <div class="form-group col-lg-3 col-md-3 col-sm-8 float-left">
+            <label class="col-lg-3 float-left">Объект</label>
+            <select class="col-lg-9 float-left form-control" v-model="object_search" class="form-control">
+                <option v-for="object in objects" :value="object.id">{{object.name}}</option>
+            </select>
+        </div>
+        <div class="form-group col-lg-3 col-md-3 col-sm-8 float-left">
+            <label class="col-lg-3 float-left">ФИО</label>
+            <input class="form-control col-lg-9 float-left" type="text" v-model="fio_search">
+        </div>
+        <button class="btn btn-success float-left"  v-on:click="search">Найти</button>
+        <button class="btn btn-primary add_users float-right" data-toggle="modal" data-target="#add_user_modal" ref="add_button">Добавить</button>
+    </div>
+    
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -16,7 +37,7 @@
         <tr v-for="(user, index) in users">
             <td>{{user.id}}</td>
             <td>{{user.email}}</td>
-            <td>{{user.fio}}</td>
+            <td>{{user.name}}</td>
             <td>{{user.role_name}}</td>
             <td>{{user.object_cnt}}</td>
             <td>
@@ -69,6 +90,9 @@
     el = new Vue({
         el: "#vue-container",
         data: {
+            role_search :0,
+            fio_search:'',
+            object_search:'',
             error:"",
             new_user:{
                 edit_id:'0',email:'',role_id:'',user_name:'',password:'', objects:[]
@@ -77,7 +101,7 @@
             users: [
                 <?php foreach($users as $row):?>
                 {id:<?=$row->id?>, 
-                    fio: '<?=$row->name?>', 
+                    name: '<?=$row->name?>', 
                     email: '<?=$row->email?>', 
                     role_name: '<?=$row->role_name?>',
                     object_cnt:'<?= !empty($row->object_cnt) ? $row->object_cnt : ""?>',
@@ -114,8 +138,7 @@
                         objects:new_user.objects                    
                 }).then(function (result) {
                     switch(result.data.status){
-                        case 200:
-                            location.reload();                            
+                        case 200:                                                        
                             break;
                         case 300:
                             break;
@@ -165,7 +188,26 @@
                     console.log(e)
                 })
             },
-                        
+            search : function(){
+                axios.post("/user/search",{
+                    role: this._data.role_search,
+                    object_id: this._data.object_search,
+                    fio: this._data.fio_search,
+                }).then(function (result) {
+                    switch(result.data.status){
+                        case 200:
+                            el._data.users.splice(0,100)
+                            for(var i in result.data.content){                               
+                                el._data.users.push(result.data.content[i])
+                            }
+                            break;
+                        case 300:
+                            break;
+                    }
+                }).catch(function (e) {
+                    console.log(e)
+                })
+            }        
         }
     })
 </script>

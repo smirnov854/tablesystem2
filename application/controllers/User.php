@@ -91,8 +91,7 @@ class User extends CI_Controller
     }
 
     public function show_users() {
-        $this->load->model("object_model");
-        
+        $this->load->model("object_model");        
         $user_data = $this->session->userdata();
         $users = $this->user_model->get_user_list();
         $roles = $this->user_model->get_role_list();
@@ -110,8 +109,23 @@ class User extends CI_Controller
         ]);
         $this->load->view('includes/footer');
     }
+    
+    public function search($offset = 0){
 
-    //Староые методы    
+        $params = json_decode(file_get_contents('php://input'));
+        $search_params = array(            
+            "fio" => $params->fio,
+            "role_id" => $params->role,
+            'object_id'=>$params->object_id,
+        );
+        $users = $this->user_model->get_user_list($search_params);
+        $result = [
+            "status"=>200,
+            "content"=>$users
+        ];
+        echo json_encode($result);
+    }
+ 
 
     public function edit_user($user_id) {
         try {

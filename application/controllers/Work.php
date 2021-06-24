@@ -84,7 +84,6 @@ class Work extends CI_Controller
                 if(!$this->do_upload()){
                     throw new Exception("Ошибка загрузки файла!",3);
                 }
-                
                 $res = $this->work_model->add_connection($this->req_id,$this->path_real);
                 $this->path_real= "uploads";
                 if(empty($res)){
@@ -129,14 +128,6 @@ class Work extends CI_Controller
             "user_id" => $user_data['id'],
         ];
         $object_list = $this->object_model->get_list($search_params);
-        if ($user_data['role_id'] != 1) {
-            $list = [];
-            foreach ($object_list as $object) {
-                $list[] = $object->id;
-            }
-            $search_params['objects'] = $list;
-        }
-
         $request_list = $this->work_model->get_list($search_params);
 
         $this->load->view('includes/header');
@@ -148,8 +139,11 @@ class Work extends CI_Controller
             "role_id" => $user_data['role_id']]);
         $this->load->view('includes/footer');
     }
+    
+
 
     public function search_req() {
+        $this->load->library('pagination');
         $params = json_decode(file_get_contents('php://input'));
         try {
             $search_params = [
@@ -171,10 +165,6 @@ class Work extends CI_Controller
         }
         echo json_encode($result);
     }
-
-    
-    
-    
     
     public function generate_data() {
         $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz';

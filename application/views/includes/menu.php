@@ -27,7 +27,8 @@ $user_data = $this->session->userdata();
                 <?php endif; ?>
 
             </ul>
-            <a href="/login/logout"><span class="fa fa-door-open text-white logout" title="Выйти"></span></a>
+            <a class="btn btn-danger" href="/login/logout">x</a>
         </div>
     </nav>
 </div>    
+

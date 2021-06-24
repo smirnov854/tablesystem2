@@ -3,8 +3,23 @@
 class User_model extends CI_Model
 {
 
-    public function get_user_list()
+    public function get_user_list($search_params = [])
     {
+        extract($search_params);
+        $where = [];
+        $where[] = " u.is_delete IS NULL  ";
+        
+        if(!empty($object_id)){
+            $where[] = " uo.object_id = $object_id";
+        }
+
+        if(!empty($role_id)){
+            $where[] = " u.role_id = $role_id";
+        }
+        
+        if(!empty($fio)){
+            $where[] = " u.name LIKE '%$fio%'";
+        }
 
         $sql = "SELECT u.*, 
                        r.id as role_id,
@@ -14,10 +29,11 @@ class User_model extends CI_Model
                 FROM users u
                 LEFT JOIN role r ON r.id=u.role_id
                 LEFT JOIN  user_object uo ON uo.user_id=u.id
-                LEFT JOIN objects o ON o.id=uo.object_id  
-                WHERE u.is_delete IS NULL      
-                GROUP BY u.id        
+                LEFT JOIN objects o ON o.id=uo.object_id                        
                 ";
+        $where_res = " WHERE " .implode(" AND ",$where);
+        $sql.= $where_res;
+        $sql.= " GROUP BY u.id ";
         $query = $this->db->query($sql);
         if (!$query) {
             return FALSE;
@@ -91,34 +107,7 @@ class User_model extends CI_Model
         }
         return TRUE;
     }
-
-
-    public function get_by_filters($filters = [])
-    {
-        extract($filters);
-        if (!empty($role_id)) {
-            $this->db->where("u.role_id", $role_id);
-            $this->db->order_by("u.league ASC,lower(u.user_name)");
-        }
-        $query = $this->db->get("users u");
-        return $query->result();
-    }
-
-    public function get_by_login($login)
-    {
-        if (!$login) {
-            return FALSE;
-        }
-        $query = $this->db->select("users.*,rank.name as rank_name")
-            ->where("login", $login)
-            ->join("rank", "rank.id=users.rank_id", "left")
-            ->get("users");
-        if (!$query || $query->num_rows() == 0) {
-            return FALSE;
-        }
-        return $query->result()[0];
-    }
-    
+  
     public function set_delete($id){        
         if(empty($id) || !is_numeric($id)){
             $res = FALSE;
