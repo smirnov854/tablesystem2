@@ -19,9 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="38bbc89c-9845-484c-add2-086f1843426c" name="Default Changelist" comment="work_list pagination">
+    <list default="true" id="38bbc89c-9845-484c-add2-086f1843426c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/user/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/user/login.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/Login.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Login.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +82,7 @@
       <workItem from="1624469645758" duration="6479000" />
       <workItem from="1624529606164" duration="38637000" />
       <workItem from="1624809630516" duration="9131000" />
-      <workItem from="1624946107826" duration="8284000" />
+      <workItem from="1624946107826" duration="8654000" />
     </task>
     <task id="LOCAL-00001" summary="create_project">
       <created>1621875925847</created>
@@ -224,7 +224,14 @@
       <option name="project" value="LOCAL" />
       <updated>1625165249342</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="work_list pagination">
+      <created>1625166013082</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1625166013082</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -252,16 +259,20 @@
     <option name="LAST_COMMIT_MESSAGE" value="work_list pagination" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="136" y="184" key="#Deployment" timestamp="1624899529284">
-      <screen x="0" y="0" width="1280" height="980" />
+    <state x="2472" y="197" key="#Deployment" timestamp="1625166368098">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="136" y="184" key="#Deployment/0.0.1280.980@0.0.1280.980" timestamp="1624899529284" />
-    <state x="2472" y="197" key="#Deployment/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1621877279693" />
-    <state x="2505" y="28" width="745" height="891" key="CommitChangelistDialog2" timestamp="1625165833914">
+    <state x="2472" y="197" key="#Deployment/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1625166368098" />
+    <state x="2557" y="220" key="#Options" timestamp="1625166111617">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2557" y="220" key="#Options/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1625166111617" />
+    <state x="2505" y="28" width="745" height="891" key="CommitChangelistDialog2" timestamp="1625166012634">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="390" y="26" width="745" height="891" key="CommitChangelistDialog2/0.0.1280.980@0.0.1280.980" timestamp="1624551626700" />
-    <state x="2505" y="28" width="749" height="945" key="CommitChangelistDialog2/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1625165833914" />
+    <state x="2505" y="28" width="749" height="945" key="CommitChangelistDialog2/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1625166012634" />
     <state x="2660" y="281" key="FileChooserDialogImpl" timestamp="1625077733464">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
@@ -271,19 +282,19 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2460" y="274" key="IDE.errors.dialog/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1621875975848" />
-    <state x="2472" y="272" key="Vcs.Push.Dialog.v2" timestamp="1625165250700">
+    <state x="2472" y="272" key="Vcs.Push.Dialog.v2" timestamp="1625166016902">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="368" y="256" key="Vcs.Push.Dialog.v2/0.0.1280.980@0.0.1280.980" timestamp="1624551629267" />
-    <state x="2472" y="272" key="Vcs.Push.Dialog.v2/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1625165250700" />
+    <state x="2472" y="272" key="Vcs.Push.Dialog.v2/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1625166016902" />
     <state x="176" y="0" width="1662" height="1055" key="dock-window-1" timestamp="1624562355363">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="176" y="0" width="1662" height="1055" key="dock-window-1/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1624562355363" />
-    <state x="2779" y="269" width="465" height="541" key="ftp.server.browser" timestamp="1621877277713">
+    <state x="2779" y="269" width="465" height="541" key="ftp.server.browser" timestamp="1625166364872">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="2779" y="269" width="465" height="541" key="ftp.server.browser/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1621877277713" />
+    <state x="2779" y="269" width="465" height="541" key="ftp.server.browser/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1625166364872" />
     <state x="2710" y="330" key="svn.repositoryBrowser" timestamp="1621875691349">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
