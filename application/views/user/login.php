@@ -7,7 +7,7 @@
     <script src="/resources/vendor/bootstrap/js/bootstrap.js"></script>
     <script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
 </head>
-<body class="login-page">
+<body class="login-page"> 
 <style>
     .vertical-center {
         min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
