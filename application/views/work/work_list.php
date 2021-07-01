@@ -68,12 +68,13 @@
             <date-picker class="form-control float-left datepicker my-1 col-lg-9" v-model='date_to' :config='options'></date-picker>
         </div>
         <div class="form-group col-lg-4 float-left">
-            <button class="btn btn-success search_button" v-on:click="search">Найти</button>
+            <button class="btn btn-success search_button" v-on:click="search(0)">Найти</button>
             <button class="btn btn-primary add_job" data-toggle="modal" data-target="#add_job">Добавить</button>
         </div>
     </div>
 
     <div>
+        <paginator v-bind:pages="pages"></paginator>
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -104,6 +105,7 @@
             </tbody>
 
         </table>
+        <paginator v-bind:pages="pages"></paginator>
     </div>
 
 
@@ -151,7 +153,7 @@
     </div>
 </div>
 
-
+<script src="/resources/js/components.js"></script>
 <script type="text/javascript">
     el = new Vue({
         el: "#request_controller",
@@ -163,6 +165,11 @@
                 showClear: true,
                 showClose: true,
             },
+            page_number: 0,
+            current_page: 1,
+            total_rows: <?=$total_rows?>,
+            per_page: 25,
+            pages:[1,2,3],
             user_role_id: <?=$role_id?>,
             date_from: '',
             date_to: '',
@@ -299,9 +306,9 @@
                 }
                 return res;
             },
-            search: function () {
+            search: function (page=0) {
 
-                axios.post("/work/search_req", {
+                axios.post("/work/search/"+page, {
                     objects_id: this.search_object_id,
                     date_from: this.date_from,
                     date_to: this.date_to,
@@ -309,15 +316,20 @@
                     switch (result.data.status) {
                         case 200:
                             el._data.requests.splice(0, el._data.requests.length + 1)
-                            for (var z in result.data.content) {
+                            let tmp_file_path = [];
+                            for (var z in result.data.content) {                                
+                                if(result.data.content[z].file_path !== null){
+                                    tmp_file_path = result.data.content[z].file_path.split('||')   
+                                }
                                 var newReq = {
                                     id: result.data.content[z].id,
                                     object_name: result.data.content[z].object_name,
                                     date_add: result.data.content[z].date_add,
-                                    description: result.data.content[z].description,
-
+                                    description: result.data.content[z].description,                                    
+                                    file_path: tmp_file_path
                                 }
                                 el._data.requests.push(newReq);
+                                tmp_file_path = []
                             }
                             break;
                         case 300:

@@ -126,9 +126,14 @@ class Work extends CI_Controller
         $search_params = [
             "role_id" => $user_data['role_id'],
             "user_id" => $user_data['id'],
+            "limit"=>25,
+            "offset"=>0
         ];
+       
         $object_list = $this->object_model->get_list($search_params,FALSE);
         $request_list = $this->work_model->get_list($search_params);
+
+        $total_rows = $this->db->query("SELECT FOUND_ROWS() as cnt")->result();
 
         $this->load->view('includes/header');
         $this->load->view("includes/menu");
@@ -136,28 +141,37 @@ class Work extends CI_Controller
             "req_list" => $request_list,
             "type" => $type_list,
             "objects" => $object_list,
-            "role_id" => $user_data['role_id']]);
+            "role_id" => $user_data['role_id'],
+            "total_rows"=>$total_rows[0]->cnt
+            
+        ]);
         $this->load->view('includes/footer');
     }
     
 
 
-    public function search_req() {
-        $this->load->library('pagination');
+    public function search($page) {
+        $user_data = $this->session->userdata();
         $params = json_decode(file_get_contents('php://input'));
         try {
             $search_params = [
                 "objects" => $params->objects_id,
                 "date_from" => $params->date_from,
                 "date_to" => $params->date_to,
+                "role_id" => $user_data['role_id'],
+                "user_id" => $user_data['id'],
+                "limit"=>25,
+                "offset"=>(!empty($page) ? ($page-1)*25:0)
             ];
             $requests = $this->work_model->get_list($search_params);
             if ($requests === FALSE) {
                 throw new Exception("Ошибка обращения к БД!", 300);
             }
+            $total_rows = $this->db->query("SELECT FOUND_ROWS() as cnt")->result();
             $result = [
                 "status" => 200,
                 "content" => $requests,
+                "total_rows"=>$total_rows[0]->cnt
             ];
         } catch (Exception $ex) {
             $result = array("message" => $ex->getMessage(),

@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS `role`(
 
 INSERT INTO `role` (`id`, `name`) VALUES (NULL, 'Администратор');
 INSERT INTO `role` (`id`, `name`) VALUES (NULL, 'Клиент');
+INSERT INTO `role` (`id`, `name`) VALUES (NULL, 'Инженер');
 INSERT INTO `role` (`id`, `name`) VALUES (NULL, 'Работник');
 
 DROP TABLE IF EXISTS `role_rights`;

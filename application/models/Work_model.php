@@ -12,9 +12,8 @@ class Work_model extends CI_Model
     
     public function get_list($search_params = "")
     {
-        extract($search_params);
-        $offset = 0;
-        $sql = "SELECT req.*, 
+        extract($search_params);        
+        $sql = "SELECT SQL_CALC_FOUND_ROWS req.*, 
                        GROUP_CONCAT(rf.file_path SEPARATOR '||') as file_path,
                        FROM_UNIXTIME(req.date_add) as date_add,
                        o.name as object_name, 
@@ -56,8 +55,8 @@ class Work_model extends CI_Model
         }
         $sql.= "GROUP BY req.id ";
         $sql.= " ORDER BY req.id DESC ";
-        $sql.= " LIMIT $offset,25";
-       // echo $sql;
+        $sql.= " LIMIT $offset,$limit ";
+        //echo $sql;
         $query = $this->db->query($sql);
         if (!$query) {
             return FALSE;
@@ -124,17 +123,6 @@ class Work_model extends CI_Model
         return TRUE;
     }
 
-
-    public function get_by_filters($filters = [])
-    {
-        extract($filters);
-        if (!empty($role_id)) {
-            $this->db->where("u.role_id", $role_id);
-            $this->db->order_by("u.league ASC,lower(u.user_name)");
-        }
-        $query = $this->db->get("users u");
-        return $query->result();
-    }
 
     public function get_by_login($login)
     {
