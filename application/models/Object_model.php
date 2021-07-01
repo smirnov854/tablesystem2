@@ -5,24 +5,50 @@ class Object_model extends CI_Model
 
     public function get_list($search_params  =[])
     {
+        
         $user_id = $search_params['user_id'];
-        $role_id = $search_params['role_id'];;
+        $role_id = $search_params['role_id'];
+        
+        
         //$role_id=1;
         if($role_id == 1){
             $sql = "
-                SELECT o.* 
+                SELECT SQL_CALC_FOUND_ROWS o.* 
                 FROM objects o
                 WHERE is_delete IS NULL 
-                ORDER BY id DESC
+                ORDER BY id DESC                
                 ";
         }else{
-            $sql = "SELECT o.* 
+            $sql = "SELECT SQL_CALC_FOUND_ROWS o.* 
                 FROM objects o
                 LEFT JOIN user_object uo ON uo.object_id=o.id
                 WHERE uo.user_id=$user_id AND is_delete IS NULL
                 ORDER BY id DESC";
         }
         
+        
+        $query = $this->db->query($sql);
+        if (!$query) {
+            return FALSE;
+        }
+        return $query->result();
+    }
+    
+    public function get_all($search_params  =[]){
+        
+            $limit = $search_params['limit'];
+            $offset = $search_params['offset'];
+       
+            $sql = "
+                SELECT SQL_CALC_FOUND_ROWS o.* 
+                FROM objects o
+                WHERE is_delete IS NULL 
+                ORDER BY id DESC                
+                ";
+        
+            $sql.= " LIMIT $offset,$limit ";
+        
+
         $query = $this->db->query($sql);
         if (!$query) {
             return FALSE;

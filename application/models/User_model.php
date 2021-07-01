@@ -5,7 +5,9 @@ class User_model extends CI_Model
 
     public function get_user_list($search_params = [])
     {
-        extract($search_params);
+        $limit = 25;
+        $offset = 0;
+        extract($search_params);        
         $where = [];
         $where[] = " u.is_delete IS NULL  ";
         
@@ -21,7 +23,8 @@ class User_model extends CI_Model
             $where[] = " u.name LIKE '%$fio%'";
         }
 
-        $sql = "SELECT u.*, 
+        $sql = "SELECT SQL_CALC_FOUND_ROWS 
+                       u.*, 
                        r.id as role_id,
                        r.name as role_name, 
                        COUNT(o.id) as object_cnt, 
@@ -34,6 +37,7 @@ class User_model extends CI_Model
         $where_res = " WHERE " .implode(" AND ",$where);
         $sql.= $where_res;
         $sql.= " GROUP BY u.id ";
+        $sql.= " LIMIT $offset,$limit ";
         $query = $this->db->query($sql);
         if (!$query) {
             return FALSE;

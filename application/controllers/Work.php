@@ -127,7 +127,7 @@ class Work extends CI_Controller
             "role_id" => $user_data['role_id'],
             "user_id" => $user_data['id'],
         ];
-        $object_list = $this->object_model->get_list($search_params);
+        $object_list = $this->object_model->get_list($search_params,FALSE);
         $request_list = $this->work_model->get_list($search_params);
 
         $this->load->view('includes/header');

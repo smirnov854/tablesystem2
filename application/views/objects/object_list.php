@@ -1,5 +1,6 @@
 <div id="vue-container">
     <button class="btn btn-primary add_object" ref='add_button' data-toggle="modal" data-target="#add_object_modal">Добавить</button>
+    <paginator v-bind:pages="pages"></paginator>
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -25,6 +26,7 @@
 
         </tbody>
     </table>
+    <paginator v-bind:pages="pages"></paginator>
     <div id="add_object_modal" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -53,14 +55,22 @@
     </div>
 </div>
 
-
+<script src="/resources/js/components.js"></script>
 <script type="text/javascript">
     el = new Vue({
         el: "#vue-container",
         data: {
+            page_number: 0,
+            current_page: 1,
+            total_rows: <?=$total_rows?>,
+            per_page: 25,
+            pages:[1,2,3],
             error:"",
             new_object:{
-                edit_id:0,address:'',name:'',description:''
+                edit_id:0,
+                address:'',
+                name:'',
+                description:''
             },
             //columns: ['id', 'fio', 'email', 'role_id'],
             objects: [
@@ -88,7 +98,6 @@
                     console.log(result)
                     switch(result.data.status){
                         case 200:
-                            
                             location.reload();
                             break;
                         case 300:
@@ -127,6 +136,32 @@
                             break;
                         case 300:
                             alert(result.message)
+                            break;
+                    }
+                }).catch(function (e) {
+                    console.log(e)
+                })
+            },
+            search: function (page) {
+                console.log(page);
+                axios.post("/objects/search/"+page, {
+                    role: this._data.role_search,
+                    object_id: this._data.object_search,
+                    fio: this._data.fio_search,
+                }).then(function (result) {
+                    switch (result.data.status) {
+                        case 200:
+                            el._data.objects.splice()
+                            el._data.objects = result.data.content;
+                            el._data.total_rows = result.data.total_rows;
+                            el._data.pages.splice(0);
+
+                            for(let z=1;z<=Math.ceil(el._data.total_rows/el._data.per_page);z++){
+                                el._data.pages.push(z)
+                            }
+
+                            break;
+                        case 300:
                             break;
                     }
                 }).catch(function (e) {

@@ -100,28 +100,36 @@ class User extends CI_Controller
             "role_id"=>$user_data['role_id'],
         ];
         $objects = $this->object_model->get_list($search_param);
+        $total_rows = $this->db->query("SELECT FOUND_ROWS() as cnt")->result();
         $this->load->view('includes/header');
         $this->load->view("includes/menu");
         $this->load->view("user/user_list", [
             "users"=>$users,
             "roles"=>$roles,
-            "objects"=>$objects
+            "objects"=>$objects,
+            "total_rows"=>$total_rows[0]->cnt
         ]);
         $this->load->view('includes/footer');
     }
     
-    public function search($offset = 0){
+    public function search($page = 0){
+        
 
         $params = json_decode(file_get_contents('php://input'));
         $search_params = array(            
             "fio" => $params->fio,
             "role_id" => $params->role,
             'object_id'=>$params->object_id,
+            "limit"=>25,
+            "offset"=>(!empty($page) ? ($page-1)*25:0)
         );
         $users = $this->user_model->get_user_list($search_params);
+        $total_rows = $this->db->query("SELECT FOUND_ROWS() as cnt")->result();
+
         $result = [
             "status"=>200,
-            "content"=>$users
+            "content"=>$users,
+            "total_rows"=>$total_rows[0]->cnt
         ];
         echo json_encode($result);
     }

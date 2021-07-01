@@ -7,8 +7,8 @@ class Objects extends CI_Controller
 
     public $menu_values = [];
 
-    public function __construct() {
-        parent::__construct();
+    public function __construct() {        
+        parent::__construct();        
         $user_data = $this->session->userdata();
         $this->load->model("object_model");
     }
@@ -23,14 +23,41 @@ class Objects extends CI_Controller
         $search_params = [
             "role_id"=>$user_data['role_id'],
             "user_id"=>$user_data['id'],
+            "limit"=>25,
+            "offset"=>0
         ];
         
-        $objects = $this->object_model->get_list($search_params);
+        $objects = $this->object_model->get_all($search_params);
+        $total_rows = $this->db->query("SELECT FOUND_ROWS() as cnt")->result();
         $this->load->view('includes/header');
         $this->load->view('includes/menu');
-        $this->load->view("objects/object_list",["objects"=>$objects]);
+        $this->load->view("objects/object_list",[
+            "objects"=>$objects,
+            "total_rows"=>$total_rows[0]->cnt
+        ]);
         $this->load->view("includes/footer");
     }
+    
+    public function search($page){
+        $user_data = $this->session->userdata();
+        
+        $params = json_decode(file_get_contents('php://input'));
+        $search_params = [
+            "role_id"=>$user_data['role_id'],
+            "user_id"=>$user_data['id'],
+            "limit"=>25,
+            "offset"=>(!empty($page) ? ($page-1)*25:0)
+        ];
+        $users = $this->object_model->get_all($search_params);
+        $total_rows = $this->db->query("SELECT FOUND_ROWS() as cnt")->result();
+
+        $result = [
+            "status"=>200,
+            "content"=>$users,
+            "total_rows"=>$total_rows[0]->cnt
+        ];
+        echo json_encode($result);
+    }    
 
     public function add_new_object($id) {
         $params = json_decode(file_get_contents('php://input'));        

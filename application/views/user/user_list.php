@@ -17,10 +17,11 @@
             <label class="col-lg-3 float-left">ФИО</label>
             <input class="form-control col-lg-9 float-left" type="text" v-model="fio_search">
         </div>
-        <button class="btn btn-success float-left"  v-on:click="search">Найти</button>
+        <button class="btn btn-success float-left" v-on:click="search(0)">Найти</button>
         <button class="btn btn-primary add_users float-right" data-toggle="modal" data-target="#add_user_modal" ref="add_button">Добавить</button>
-    </div>
-    
+    </div>   
+    <div class="clearfix"></div>
+    <paginator v-bind:pages="pages"></paginator>
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -47,6 +48,7 @@
         </tr>
         </tbody>
     </table>
+    <paginator v-bind:pages="pages"></paginator>
     <div id="add_user_modal" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -85,60 +87,67 @@
     </div>
 </div>
 
-
+<script src="/resources/js/components.js"></script>
 <script type="text/javascript">
     el = new Vue({
         el: "#vue-container",
         data: {
-            role_search :0,
-            fio_search:'',
-            object_search:'',
-            error:"",
-            new_user:{
-                edit_id:'0',email:'',role_id:'',user_name:'',password:'', objects:[]
+            role_search: 0,
+            page_number: 0,
+            current_page: 1,
+            total_rows: <?=$total_rows?>,
+            per_page: 25,
+            pages:[1,2,3],
+            fio_search: '',
+            object_search: '',
+            error: "",
+            new_user: {
+                edit_id: '0', email: '', role_id: '', user_name: '', password: '', objects: []
             },
             //columns: ['id', 'fio', 'email', 'role_id'],
             users: [
                 <?php foreach($users as $row):?>
-                {id:<?=$row->id?>, 
-                    name: '<?=$row->name?>', 
-                    email: '<?=$row->email?>', 
+                {
+                    id: <?=$row->id?>,
+                    name: '<?=$row->name?>',
+                    email: '<?=$row->email?>',
                     role_name: '<?=$row->role_name?>',
-                    object_cnt:'<?= !empty($row->object_cnt) ? $row->object_cnt : ""?>',
-                    object_ids: '<?= !empty($row->object_ids) ? $row->object_ids : ""?>'},
+                    object_cnt: '<?= !empty($row->object_cnt) ? $row->object_cnt : ""?>',
+                    object_ids: '<?= !empty($row->object_ids) ? $row->object_ids : ""?>'
+                },
                 <?php endforeach;?>
             ],
             roles: [
                 <?php foreach($roles as $row):?>
-                {id:<?=$row->id?>, name: '<?=$row->name?>'},
+                {id: <?=$row->id?>, name: '<?=$row->name?>'},
                 <?php endforeach;?>
             ],
-            objects:[
+            objects: [
                 <?php foreach($objects as $row):?>
-                {id:<?=$row->id?>, name: '<?=$row->name?>'},
+                {id: <?=$row->id?>, name: '<?=$row->name?>'},
                 <?php endforeach;?>
-            ],            
+            ],
         },
         methods: {
             add_new_user: function (new_user) {
                 var errors = this.check_form(new_user)
-                if(errors.length>0){
+                if (errors.length > 0) {
                     this.error = errors.join(" ")
                     return;
                 }
                 var url = "/user/add_new_user";
-                if(this.new_user.edit_id !=0 ){
-                    url = "/user/edit_user/"+this.new_user.edit_id;
+                if (this.new_user.edit_id != 0) {
+                    url = "/user/edit_user/" + this.new_user.edit_id;
                 }
-                axios.post(url,{
-                        user_name:new_user.user_name,
-                        role_id:new_user.role_id,
-                        email:new_user.email,
-                        password:new_user.password,
-                        objects:new_user.objects                    
+                axios.post(url, {
+                    user_name: new_user.user_name,
+                    role_id: new_user.role_id,
+                    email: new_user.email,
+                    password: new_user.password,
+                    objects: new_user.objects
                 }).then(function (result) {
-                    switch(result.data.status){
-                        case 200:                                                        
+                    switch (result.data.status) {
+                        case 200:
                             break;
                         case 300:
                             break;
@@ -147,38 +156,38 @@
                     console.log(e)
                 })
             },
-            check_form : function(new_user){
+            check_form: function (new_user) {
                 var errors = [];
-                if(!new_user.user_name){
+                if (!new_user.user_name) {
                     errors.push("Укажите ФИО!");
                 }
 
-                if(!new_user.email){
+                if (!new_user.email) {
                     errors.push("Укажите email!");
-                }               
+                }
                 return errors;
             },
-            edit_user : function (id,email,fio,role_name,object_ids,role_id){
-                this.new_user.edit_id=id
-                this.new_user.email=email
-                this.new_user.role_id=role_id
-                this.new_user.user_name=fio
-                this.new_user.role_name=role_name 
-                if(object_ids.length>0){
+            edit_user: function (id, email, fio, role_name, object_ids, role_id) {
+                this.new_user.edit_id = id
+                this.new_user.email = email
+                this.new_user.role_id = role_id
+                this.new_user.user_name = fio
+                this.new_user.role_name = role_name
+                if (object_ids.length > 0) {
                     var object_list = object_ids.split(",");
-                    for (var i in object_list){                        
+                    for (var i in object_list) {
                         this.new_user.objects.push(object_list[i])
-                    }                    
+                    }
                 }
                 this.$refs.add_button.click()
             },
-            delete_user : function(index,id){
-                this._data.users.splice(index,1);
-                axios.post("/user/set_delete/"+id,{
-                    id:id,
+            delete_user: function (index, id) {
+                axios.post("/user/set_delete/" + id, {
+                    id: id,
                 }).then(function (result) {
-                    switch(result.data.status){
+                    switch (result.data.status) {
                         case 200:
+                            el._data.users.splice(index, 1)
                             break;
                         case 300:
                             alert(result.message)
@@ -188,26 +197,33 @@
                     console.log(e)
                 })
             },
-            search : function(){
-                axios.post("/user/search",{
+            search: function (page) {
+                console.log(page);
+                axios.post("/user/search/"+page, {
                     role: this._data.role_search,
                     object_id: this._data.object_search,
                     fio: this._data.fio_search,
                 }).then(function (result) {
-                    switch(result.data.status){
+                    switch (result.data.status) {
                         case 200:
-                            el._data.users.splice(0,100)
-                            for(var i in result.data.content){                               
-                                el._data.users.push(result.data.content[i])
-                            }
+                            el._data.users.splice()
+                            el._data.users = result.data.content;
+                            el._data.total_rows = result.data.total_rows;
+                            el._data.pages.splice(0);
+                            
+                                for(let z=1;z<=Math.ceil(el._data.total_rows/el._data.per_page);z++){
+                                    el._data.pages.push(z)
+                                }
+                            
                             break;
                         case 300:
                             break;
                     }
                 }).catch(function (e) {
                     console.log(e)
-                })
-            }        
-        }
+                })                
+            },
+        },       
+        
     })
 </script>

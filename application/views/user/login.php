@@ -8,8 +8,17 @@
     <script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body class="login-page">
-<main>
-    <div class="login-block offset-lg-4 col-lg-4 offset-md-3 col-md-6 col-sm-12">
+<style>
+    .vertical-center {
+        min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+        min-height: 100vh; /* These two lines are counted as one :-)       */
+
+        display: flex;
+        align-items: center;
+    }
+</style>
+<main class="vertical-center">
+    <div class="login-block offset-lg-4 col-lg-4 offset-md-3 col-md-6 col-sm-12 ">
         <?php if(!empty($error_messages)):?>
             <div class="alert alert-danger"><?=$error_messages?></div>
         <?php endif;?>
@@ -34,10 +43,10 @@
 
         </form>
     </div>
-
+<!--
     <div class="login-links">
         <p class="text-center"><a class="txt-brand" href="user-login.html"><font color=#29aafe>Регистрация</font></a></p>
-    </div>
+    </div> -->
 
 </main>
 </body>
