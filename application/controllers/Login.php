@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Login extends CI_Controller {
      
     private $error = "";
- 
+  
     public function __construct()
     {
         parent::__construct();

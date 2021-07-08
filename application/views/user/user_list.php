@@ -1,20 +1,20 @@
 <div id="vue-container" class="container-fluid">
-    <div class="col-lg-8 col-md-8 col-sm-10 my-3">
-        <div class="form-group col-lg-3 col-md-3 col-sm-8 float-left">
-            <label class="col-lg-3 float-left">Роль</label>
-            <select class="col-lg-9 float-left form-control" v-model="role_search" class="form-control">
+    <div class="col-lg-12 col-md-12 col-sm-12 my-3">
+        <div class="form-group col-lg-3 col-md-6 col-sm-12 float-left">
+            <label class="col-lg-3 col-md-6 col-sm-12 float-left">Роль</label>
+            <select class="col-lg-9  col-md-6 col-sm-12 float-left form-control" v-model="role_search" class="form-control">
                 <option></option>
                 <option v-for="role in roles" :value="role.id">{{role.name}}</option>
             </select>
         </div>
-        <div class="form-group col-lg-3 col-md-3 col-sm-8 float-left">
-            <label class="col-lg-3 float-left">Объект</label>
-            <select class="col-lg-9 float-left form-control" v-model="object_search" class="form-control">
+        <div class="form-group col-lg-3 col-md-6 col-sm-12 float-left">
+            <label class="col-lg-3 col-md-6 col-sm-12 float-left">Объект</label>
+            <select class="col-lg-9 col-md-6 col-sm-12 float-left form-control" v-model="object_search" class="form-control">
                 <option v-for="object in objects" :value="object.id">{{object.name}}</option>
             </select>
         </div>
-        <div class="form-group col-lg-3 col-md-3 col-sm-8 float-left">
-            <label class="col-lg-3 float-left">ФИО</label>
+        <div class="form-group col-lg-3 col-md-6 col-sm-12 float-left">
+            <label class="col-lg-3 c float-left">ФИО</label>
             <input class="form-control col-lg-9 float-left" type="text" v-model="fio_search">
         </div>
         <button class="btn btn-success float-left" v-on:click="search(0)">Найти</button>
@@ -79,7 +79,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger" data-dismiss="modal">Закрыть</button>
+                    <button class="btn btn-danger close_dialog" data-dismiss="modal">Закрыть</button>
                     <button class="btn btn-success" id="confirm_add_user" v-on:click="add_new_user(new_user)">Добавить</button>
                 </div>
             </div>
@@ -97,7 +97,7 @@
             current_page: 1,
             total_rows: <?=$total_rows?>,
             per_page: 25,
-            pages:[1,2,3],
+            pages:<?=$total_rows >25 ? '[1,2,3]' : '[]'?>,
             fio_search: '',
             object_search: '',
             error: "",
@@ -147,9 +147,12 @@
                     objects: new_user.objects
                 }).then(function (result) {
                     switch (result.data.status) {
-                        case 200:
+                        case 200:                            
+                            document.querySelector(".close_dialog").click();  
+                            el.search(1);
                             break;
                         case 300:
+                            alert(result.data.message)
                             break;
                     }
                 }).catch(function (e) {

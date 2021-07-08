@@ -42,11 +42,11 @@
     td.img_container{
         max-height: 100px !important;
         max-width: 150px !important;        
-        overflow: scroll;
+        overflow-x: scroll;
     }
     .img_container img{
-        max-height: 99px;
-        max-width: 99px;
+        max-height: 30px;
+        max-width: 30px;
         float:left;
     }
 </style>

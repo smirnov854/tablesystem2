@@ -11,6 +11,7 @@ class User_model extends CI_Model
         $where = [];
         $where[] = " u.is_delete IS NULL  ";
         
+        
         if(!empty($object_id)){
             $where[] = " uo.object_id = $object_id";
         }
@@ -37,7 +38,7 @@ class User_model extends CI_Model
         $where_res = " WHERE " .implode(" AND ",$where);
         $sql.= $where_res;
         $sql.= " GROUP BY u.id ";
-        $sql.= " LIMIT $offset,$limit ";
+        $sql.= " LIMIT $offset,$limit ";        
         $query = $this->db->query($sql);
         if (!$query) {
             return FALSE;

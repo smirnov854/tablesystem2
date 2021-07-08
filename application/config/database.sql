@@ -5,9 +5,10 @@ CREATE TABLE IF NOT EXISTS `users`(
   `name` VARCHAR(100),
   `password` VARCHAR(200),
   `role_id` INT,
-  `is_delete` INT,
+  `is_delete` INT
 );
 ALTER TABLE `users` ADD INDEX (`role_id`);
+INSERT INTO `users` (`id`, `email`, `name`, `password`, `role_id`, `is_delete`) VALUES (1, 'admin@admin.com', NULL, '$2y$10$rj6PDNYmQ/r3UTadlMoGSuyNGFyMRe1/.EwROuEp/Af/cctCvIclW', '1', NULL);
 
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE IF NOT EXISTS `role`(
@@ -32,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `objects`(
   `name` VARCHAR(100),
   `address` VARCHAR(250),
   `description` VARCHAR(500),
-  `is_delete` INT,
+  `is_delete` INT
 );
 
 DROP TABLE IF EXISTS `user_object`;

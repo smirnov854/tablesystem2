@@ -58,6 +58,7 @@ class User extends CI_Controller
     public function add_new_user() {
         $user_data = $this->session->userdata();
         $this->load->model("object_model");
+        $this->load->model("mail_model");
         $params = json_decode(file_get_contents('php://input'));        
         $common_info = array(
             "email"=>$params->email,
@@ -70,18 +71,31 @@ class User extends CI_Controller
             if (empty($common_info['email']) || empty($common_info['name']) || empty($common_info['role_id']) ){
                 throw new Exception("Ошибка заполнения формы!", 300);
             }
+            if(empty($objects)){
+                throw new Exception("Необходимо выбрать объекты!", 300);
+            }
+            $password_to_send = $common_info['password'];
             $common_info['password'] = password_hash($common_info['password'], PASSWORD_BCRYPT);
             $res = $this->user_model->add_new_user($common_info);
             if (!$res) {
                 throw new Exception("Ошибка обращения к базе данных!", 2);
             }            
-            $res_add = $this->object_model->add_connection($user_data['id'],$objects);
+            $res_add = $this->object_model->add_connection($res,$objects);
             if(!$res_add){
                 throw new Exception("Ошибка добавления привязки объект-пользователь!", 3);
             }
+            $body = "Вы были зарегистрированы в системе.<br/>
+                     Для входа используйте следующую информацию:<br/>
+                     Имя пользователя: ".$common_info['email']."<br/>
+                     пароль:".$password_to_send;
+            $send_res = $this->mail_model->send($common_info['email'],"Регистрация в системе",$body);
+            if(!$send_res){
+                throw new Exception("Ошибка отпраки письма на почту!", 3);
+            }
             $result = [
                 "status" => 200,
-                "message" => "Пользователь добавлен!"
+                "message" => "Пользователь добавлен!",
+                "content"=>[]
             ];
         } catch (Exception $ex) {
             $result = array("message" => $ex->getMessage(),

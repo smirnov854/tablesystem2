@@ -119,10 +119,11 @@ class Objects extends CI_Controller
     
     public function generate_data(){
         $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz';        
-        for($i = 0; $i<100;$i++){
+        for($i = 0; $i<10;$i++){
             $insert_array = [
-                "name"=>substr(str_shuffle($permitted_chars), 0, 10),
-                "address"=>substr(str_shuffle($permitted_chars), 0, 10),
+                "name"=>'Объект '.$i,
+                "address"=>'Адрес '.$i,
+                "description"=>'Описание '.$i,
             ];
             $this->db->insert("objects",$insert_array);    
         }
