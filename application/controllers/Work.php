@@ -180,6 +180,69 @@ class Work extends CI_Controller
         echo json_encode($result);
     }
     
+    public function save_worker_comment($id){
+        $params = json_decode(file_get_contents('php://input'));
+        $user_data = $this->session->userdata();
+        try {
+            if(empty($id) || !is_numeric($id)){
+                throw new Exception("Ошибка получения номера заявки!", 300);
+            }
+            $update_param = [
+                "done_work"=>$params->comment,
+                "id_user_done"=>$user_data['id'],
+                "user_done_date"=>time(),
+            ];
+            $res = $this->work_model->update_by_id($id,$update_param);
+            if ($res === FALSE) {
+                throw new Exception("Ошибка обращения к БД!", 300);
+            }           
+            $result = [
+                "status" => 200,                
+            ];
+        } catch (Exception $ex) {
+            $result = array("message" => $ex->getMessage(),
+                "status" => $ex->getCode());
+        }
+        echo json_encode($result);
+    }
+    
+    public function update_check_date($id,$type){
+        $user_data = $this->session->userdata();
+        try {
+            if(empty($id) || !is_numeric($id)){
+                throw new Exception("Ошибка получения номера заявки!", 300);
+            }            
+            $tmp_date = time();
+            switch($type){
+                case 'user_check_date':                    
+                    $update_param = [
+                        "id_user_check"=>$user_data['id'],
+                        "user_check_date"=>$tmp_date,
+                    ];
+                    break;
+                case 'common_date':
+                    $update_param = [
+                        "id_user_common_check"=>$user_data['id'],
+                        "common_date"=>$tmp_date,
+                    ];
+                    break;
+            }
+            
+            $res = $this->work_model->update_by_id($id,$update_param);
+            if ($res === FALSE) {
+                throw new Exception("Ошибка обращения к БД!", 300);
+            }
+            $result = [
+                "status" => 200,
+                "content"=>date(date("d.m.Y H:i",$tmp_date))
+            ];
+        } catch (Exception $ex) {
+            $result = array("message" => $ex->getMessage(),
+                "status" => $ex->getCode());
+        }
+        echo json_encode($result);
+    }
+    
     public function generate_data() {
         $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz';
         for ($i = 0; $i < 10000; $i++) {

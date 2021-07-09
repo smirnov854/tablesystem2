@@ -142,5 +142,12 @@ class Work_model extends CI_Model
     public function add_connection($req_id,$path){        
         return $this->db->insert("request_files",["request_id"=>$req_id,"file_path"=>$path]);
     }
+    
+    public function update_by_id($id,$update_arr){
+        if(empty($id) || !is_numeric($id)){
+            return FALSE;
+        }        
+        return $this->db->where("id",$id)->update("requests",$update_arr);
+    }
 
 }

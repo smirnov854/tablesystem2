@@ -35,19 +35,21 @@
     });
 </script>
 <style>
-    tr.img_row{
+    tr.img_row {
         max-height: 100px !important;
         overflow: scroll;
     }
-    td.img_container{
+
+    td.img_container {
         max-height: 100px !important;
-        max-width: 150px !important;        
+        max-width: 150px !important;
         overflow-x: scroll;
     }
-    .img_container img{
+
+    .img_container img {
         max-height: 30px;
         max-width: 30px;
-        float:left;
+        float: left;
     }
 </style>
 
@@ -84,23 +86,37 @@
                 <th>Описание</th>
                 <th>Работы</th>
                 <th>Cдал</th>
-                <th>Фото</th>                
+                <th>Фото</th>
                 <th>Проверил</th>
                 <th>Принял</th>
             </tr>
             </thead>
             <tbody>
-            <tr class="img_row" v-for="{id,date_add,description,object_name,date_done,file_path} in requests">
-                <td>{{id}}</td>
-                <td>{{object_name}}</td>
-                <td>{{date_add}}</td>
-                <td>{{description}}</td>
-                <td></td>
-                <td>{{date_done}}</td>
-                <td class="img_container"><img v-if="file_path" v-for="path in file_path" v-bind:src="'./'+path" class="thumb" style="width:100px;height:100px"></td>
-                <td></td>
-                <td></td>
-                <td></td>
+            <tr class="img_row" v-for="(request,index) in requests">
+                <td>{{request.id}}</td>
+                <td>{{request.object_name}}</td>
+                <td>{{request.date_add}}</td>
+                <td>{{request.description}}</td>
+                <td>
+                    <textarea v-if="user_role_id==4 && request.done_work==''" class="form-control" v-model="request.cur_comment"></textarea>
+                    <button class="btn btn-success btn-sm" v-if="user_role_id==4 && request.done_work==''" v-on:click="save_cur_comment(request.id,index)"><i class="fa fa-check"></i></button>                    
+                    <button class="btn btn-danger btn-sm" v-if="user_role_id==4 && request.done_work==''" v-on:click="request.cur_comment=''"><i class="fa fa-times"></i></button>                    
+                    {{request.done_work}}
+                </td>
+                <td>{{request.date_done}}</td>
+                <td class="img_container">
+                    <img v-if="request.file_path" v-for="path in request.file_path" v-bind:src="path" class="thumb" style="width:100px;height:100px">
+                    <input v-if="request.file_path=='' && user_role_id==4" type="file" v-bind:ref="'file_'+index" v-model='cur_file_upload[index]' v-on:change="save_cur_files(request.id,index)" multiple>
+                    <!--<button class="btn btn-success btn-sm" v-if="user_role_id==4 && request.file_path==''" v-on:click="save_cur_files(request.id,index)"><i class="fa fa-check"></i></button>-->
+                </td>
+                <td>
+                    <button class="btn btn-success btn-sm" v-if="user_role_id==3 && request.user_check_date=='' && request.date_done!=''" v-on:click="update_check_date(request.id,index,'user_check_date')"><i class="fa fa-check"></i></button>
+                    {{request.user_check_date}}
+                </td>
+                <td>
+                    <button class="btn btn-success btn-sm" v-if="user_role_id==2 && request.common_date=='' && request.user_check_date!=''" v-on:click="update_check_date(request.id,index,'common_date')"><i class="fa fa-check"></i></button>
+                    {{request.common_date}}
+                </td>
             </tr>
             </tbody>
 
@@ -113,7 +129,10 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <div class="modal-title">Добавление заявки</div>
+                    <div class="modal-title">
+                        <span v-if="user_role_id!=4">Добавление заявки</span>
+                        <span v-if="user_role_id==4">Добавление работ</span>
+                    </div>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-danger" v-if="error">{{error}}</div>
@@ -134,15 +153,14 @@
                         <textarea v-model="new_job.description" class="form-control col-lg-8 col-md-8 col-sm-8"></textarea>
                     </div>
 
-                    <div class="form-row" v-if="user_role_id==3">
+                    <div class="form-row" v-if="user_role_id==4">
                         <label class="col-lg-4 col-md-4 col-sm-4 text-right float-left">Дата выполнения работ</label>
                         <date-picker class="form-control col-lg-8 col-md-8 col-sm-8 float-left datepicker" v-model='new_job.date_done' :config='options'></date-picker>
                     </div>
-                    <div class="form-row col-lg-12 col-md-12 col-sm-12 float-left my-2" v-if="user_role_id==3">
+                    <div class="form-row col-lg-12 col-md-12 col-sm-12 float-left my-2" v-if="user_role_id==4">
                         <label class="col-lg-2 col-md-2 col-sm-2 text-right" title="Максимальный размер 10 мб">Фото</label>
                         <input type="file" ref='file' v-model="file_1" multiple>
                     </div>
-
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-danger close_dialog float-left" data-dismiss="modal">Закрыть</button>
@@ -165,17 +183,19 @@
                 showClear: true,
                 showClose: true,
             },
+            cur_comment: [],
             page_number: 0,
             current_page: 1,
             total_rows: <?=$total_rows?>,
             per_page: 25,
-            pages:[1,2,3],
+            pages: <?=$total_rows > 25 ? '[1,2,3]' : '[]' ?>,
             user_role_id: <?=$role_id?>,
             date_from: '',
             date_to: '',
             search_object_id: [],
             error: "",
             file_1: "",
+            cur_file_upload:[],
             new_job: {
                 type_id: '',
                 object_id: '',
@@ -203,11 +223,16 @@
                     date_add: '<?=$row->date_add?>',
                     object_name: '<?=$row->object_name?>',
                     file_path: [
-                        <?php foreach(explode("||",$row->file_path) as $cur_file):?>
-                        '<?=$cur_file?>',
+                        <?php foreach(explode("||", $row->file_path) as $cur_file):?>
+                        <?php if(!empty($cur_file)):?>
+                        '<?="./" . $cur_file?>',
+                        <?php endif;?>
                         <?php endforeach;?>
-                    ], 
-                    date_done: '<?=!empty($row->user_done_date) ? date("d.m.Y", $row->user_done_date) : ""?>'
+                    ],
+                    done_work: '<?=!empty($row->done_work) ?  $row->done_work : ""?>',
+                    date_done: '<?=!empty($row->user_done_date) ? date("d.m.Y H:i", $row->user_done_date) : ""?>',
+                    user_check_date : '<?=!empty($row->user_check_date) ? date("d.m.Y H:i", $row->user_check_date) : ""?>',
+                    common_date: '<?=!empty($row->common_date) ? date("d.m.Y H:i", $row->common_date) : ""?>',
                 },
                 <?php endforeach;?>
             ]
@@ -224,13 +249,12 @@
                 }
                 let is_exist = false;
                 let formData = new FormData()
-                if (this._data.user_role_id == 3) {
+                if (this._data.user_role_id == 4) {
                     if (this._data.file_1) {
-                        let length = this.$refs.file.files.length                        
-                        let i = 0;
-                        for (i = 0; i < length; i++) {
-                            formData.append('file'+i, this.$refs.file.files[i])
-                            let file = this.$refs.file.files[i];                            
+                        let length = this.$refs.file.files.length                         
+                        for (let i = 0; i < length; i++) {
+                            formData.append('file' + i, this.$refs.file.files[i])
+                            let file = this.$refs.file.files[i];
                             if (file.size > 10 * 1024 * 1024) {
                                 alert(file_max_size);
                                 return;
@@ -283,6 +307,50 @@
                     console.log(e)
                 })
             },
+            save_cur_files: function(id,index){                                
+                let error_file_message = "Недопустимое расширение файла! Допускается pdf,gif, jpg,png"
+                let file_max_size = "Размер файла не должен превышать 10МБ";
+                let formData = new FormData()
+                if (this._data.user_role_id == 4) {                    
+                    if (this.$refs['file_'+index]) {
+                        let length = this.$refs['file_'+index][0].files.length                                                
+                        for (let i = 0; i < length; i++) {    
+                            formData.append('file' + i, this.$refs['file_'+index][0].files[i])                            
+                            let file = this.$refs['file_'+index][0].files[i];                            
+                            if (file.size > 10 * 1024 * 1024) {
+                                alert(file_max_size);
+                                return;
+                            }
+                            if (!this.check_extension(file.name)) {
+                                alert(error_file_message);
+                                return;
+                            }
+                        }
+                        is_exist = this.$refs['file_'+index][0].files[0].value;
+                    }else{
+                        return
+                    }
+                }else{
+                    return
+                }                
+                axios.post("/work/upload_file/" + id, formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }).then(function (response) {
+                    switch (response.data.status) {
+                        case 200:
+                            alert("Успешно добавлено!");
+                            break;
+                        default:
+                            alert(response.data.message)
+                            break;
+                    }
+                }, (error) => {
+                    alert("Ошибка обращения к серверу!")
+                });
+            },
             check_form: function (new_job) {
                 var errors = [];
                 if (!new_job.type_id) {
@@ -306,9 +374,9 @@
                 }
                 return res;
             },
-            search: function (page=0) {
+            search: function (page = 0) {
 
-                axios.post("/work/search/"+page, {
+                axios.post("/work/search/" + page, {
                     objects_id: this.search_object_id,
                     date_from: this.date_from,
                     date_to: this.date_to,
@@ -317,19 +385,54 @@
                         case 200:
                             el._data.requests.splice(0, el._data.requests.length + 1)
                             let tmp_file_path = [];
-                            for (var z in result.data.content) {                                
-                                if(result.data.content[z].file_path !== null){
-                                    tmp_file_path = result.data.content[z].file_path.split('||')   
+                            for (var z in result.data.content) {
+                                if (result.data.content[z].file_path !== null) {
+                                    tmp_file_path = result.data.content[z].file_path.split('||')
                                 }
                                 var newReq = {
                                     id: result.data.content[z].id,
                                     object_name: result.data.content[z].object_name,
                                     date_add: result.data.content[z].date_add,
-                                    description: result.data.content[z].description,                                    
+                                    description: result.data.content[z].description,
                                     file_path: tmp_file_path
                                 }
                                 el._data.requests.push(newReq);
                                 tmp_file_path = []
+                            }
+                            break;
+                        case 300:
+                            break;
+                    }
+                }).catch(function (e) {
+                    console.log(e)
+                })
+            },
+            save_cur_comment: function(id,index){
+                axios.post("/work/save_worker_comment/" + id, {
+                    comment: this.requests[index].cur_comment,                    
+                }).then(function (result) {
+                    switch (result.data.status) {
+                        case 200:
+                            el._data.requests[index].done_work = el._data.requests[index].cur_comment;                            
+                            break;
+                        case 300:
+                            break;
+                    }
+                }).catch(function (e) {
+                    console.log(e)
+                })
+            },
+            update_check_date : function(id,index, type){
+                axios.post("/work/update_check_date/" + id +'/'+type, {}).then(function (result) {
+                    switch (result.data.status) {
+                        case 200:
+                            switch(type){
+                                case 'user_check_date':
+                                    el._data.requests[index].user_check_date = result.data.content;
+                                    break;
+                                case 'common_date':
+                                    el._data.requests[index].common_date = result.data.content;
+                                    break;
                             }
                             break;
                         case 300:

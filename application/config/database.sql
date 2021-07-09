@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `requests`(
   `id_user_check` INT,
   `user_check_date` INT,
   `id_user_common_check` INT,
-  `id_user_common_date` INT
+  `common_date` INT
 );
 
 ALTER TABLE `requests` ADD INDEX (`type_id`);
