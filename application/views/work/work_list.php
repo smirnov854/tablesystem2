@@ -105,7 +105,7 @@
                 </td>
                 <td>{{request.date_done}}</td>
                 <td class="img_container">
-                    <img v-if="request.file_path" v-for="path in request.file_path" v-bind:src="path" class="thumb" style="width:100px;height:100px">
+                    <img  v-if="request.file_path" v-for="path in request.file_path" v-bind:src="path" class="thumb" style="width:100px;height:100px" v-on:click="el._data.cur_photo = path" data-toggle="modal" data-target="#cur_photo_dialog">                    
                     <input v-if="request.file_path=='' && user_role_id==4" type="file" v-bind:ref="'file_'+index" v-model='cur_file_upload[index]' v-on:change="save_cur_files(request.id,index)" multiple>
                     <!--<button class="btn btn-success btn-sm" v-if="user_role_id==4 && request.file_path==''" v-on:click="save_cur_files(request.id,index)"><i class="fa fa-check"></i></button>-->
                 </td>
@@ -124,7 +124,22 @@
         <paginator v-bind:pages="pages"></paginator>
     </div>
 
-
+    <div id="cur_photo_dialog" class="modal  fade" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">                        
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <img style='max-height: 100%;max-width: 100%' v-bind:src="cur_photo">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger close_dialog float-left" data-dismiss="modal">Закрыть</button>                    
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="add_job" class="modal  fade" role="dialog" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -172,9 +187,13 @@
 </div>
 
 <script src="/resources/js/components.js"></script>
+<script src="https://unpkg.com/vue-pure-lightbox/dist/VuePureLightbox.umd.min.js"></script>
 <script type="text/javascript">
-    el = new Vue({
+    el = new Vue({        
         el: "#request_controller",
+        components: {
+            'vue-pure-lightbox': window.VuePureLightbox,
+        },
         data: {
             options: {
                 // https://momentjs.com/docs/#/displaying/
@@ -196,6 +215,7 @@
             error: "",
             file_1: "",
             cur_file_upload:[],
+            cur_photo : "",
             new_job: {
                 type_id: '',
                 object_id: '',
@@ -443,5 +463,5 @@
                 })
             }
         }
-    })
+    })    
 </script>
