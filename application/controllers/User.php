@@ -85,7 +85,7 @@ class User extends CI_Controller
                 throw new Exception("Ошибка добавления привязки объект-пользователь!", 3);
             }
             $body = "Вы были зарегистрированы в системе.<br/>
-                     Для входа используйте следующую информацию:<br/>
+                     Для входа перейдите по ссылке <a href='".$_SERVER['SERVER_NAME']."'>ссылке</a> используйте следующую информацию:<br/>                     
                      Имя пользователя: ".$common_info['email']."<br/>
                      пароль:".$password_to_send;
             $send_res = $this->mail_model->send($common_info['email'],"Регистрация в системе",$body);

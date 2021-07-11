@@ -53,17 +53,17 @@ class Work extends CI_Controller
                 case 2:
                     $type = 'client';
                     $subject = "Добавлена новая задача";
-                    $body = "По объекту добавлена новая задача<br/>";
+                    $body = "По объекту добавлена новая задача<br/>Для просмотра перейдите по <a href='".$_SERVER['SERVER_NAME']."'>ссылке</a>";
                     break;
                 case 3:
                     $type = 'engineer';
                     $subject = "Добавлена новая задача";
-                    $body = "По объекту добавлена новая задача<br/>";
+                    $body = "По объекту добавлена новая задача<br/>Для просмотра перейдите по <a href='".$_SERVER['SERVER_NAME']."'>ссылке</a>";
                     break;
                 case 4:
                     $type = 'worker';
                     $subject = "Добавлена новая задача";
-                    $body = "По объекту добавлена новая задача<br/>";
+                    $body = "По объекту добавлена новая задача<br/>Для просмотра перейдите по <a href='".$_SERVER['SERVER_NAME']."'>ссылке</a>";
                     break;
             }
             $res = $this->work_model->add_new_request($common_info);
@@ -150,8 +150,7 @@ class Work extends CI_Controller
         return FALSE;
     }
 
-    public function show_work_table() {
-        echo base_url();
+    public function show_work_table() {        
         $user_data = $this->session->userdata();
         $type_list = $this->work_model->get_type_list();
         $search_params = [
