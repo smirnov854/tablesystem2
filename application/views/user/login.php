@@ -6,6 +6,7 @@
     <script src="/resources/vendor/jquery/jquery.min.js"></script>
     <script src="/resources/vendor/bootstrap/js/bootstrap.js"></script>
     <script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body class="login-page"> 
 <style>

@@ -10,6 +10,13 @@ CREATE TABLE IF NOT EXISTS `users`(
 ALTER TABLE `users` ADD INDEX (`role_id`);
 INSERT INTO `users` (`id`, `email`, `name`, `password`, `role_id`, `is_delete`) VALUES (1, 'admin@admin.com', NULL, '$2y$10$rj6PDNYmQ/r3UTadlMoGSuyNGFyMRe1/.EwROuEp/Af/cctCvIclW', '1', NULL);
 
+DROP TABLE IF EXISTS `user_object`;
+CREATE TABLE IF NOT EXISTS `user_object`(
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `user_id` INT,
+  `object_id` INT
+);
+
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE IF NOT EXISTS `role`(
   `id` INT PRIMARY KEY AUTO_INCREMENT,
@@ -36,12 +43,7 @@ CREATE TABLE IF NOT EXISTS `objects`(
   `is_delete` INT
 );
 
-DROP TABLE IF EXISTS `user_object`;
-CREATE TABLE IF NOT EXISTS `user_object`(
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `user_id` INT,
-  `object_id` INT
-);
+
 
 ALTER TABLE `user_object` ADD INDEX (`user_id`);
 ALTER TABLE `user_object` ADD INDEX (`object_id`);
