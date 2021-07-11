@@ -42,7 +42,8 @@
         float: left;
     }
     .block{
-        max-height:100px!important;
+        max-height: 100px!important;
+        min-height: 50px;
         overflow: auto;
         margin-top: 10px;
     }
