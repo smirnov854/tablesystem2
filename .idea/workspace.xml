@@ -19,10 +19,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="38bbc89c-9845-484c-add2-086f1843426c" name="Default Changelist" comment="Fix several bugs">
+    <list default="true" id="38bbc89c-9845-484c-add2-086f1843426c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/Work_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Work_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/includes/menu.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/includes/menu.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/work/work_list.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/work/work_list.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -134,7 +132,7 @@
       <workItem from="1625767249858" duration="5220000" />
       <workItem from="1625811353602" duration="12968000" />
       <workItem from="1625834967793" duration="4882000" />
-      <workItem from="1625903052500" duration="9245000" />
+      <workItem from="1625903052500" duration="11219000" />
     </task>
     <task id="LOCAL-00001" summary="create_project">
       <created>1621875925847</created>
@@ -402,7 +400,14 @@
       <option name="project" value="LOCAL" />
       <updated>1625988032443</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="Fix several bugs">
+      <created>1625990057295</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1625990057295</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -444,10 +449,10 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2557" y="220" key="#Options/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1625166111617" />
-    <state x="390" y="26" width="745" height="891" key="CommitChangelistDialog2" timestamp="1625988702549">
+    <state x="390" y="26" width="745" height="891" key="CommitChangelistDialog2" timestamp="1625990056325">
       <screen x="0" y="0" width="1280" height="980" />
     </state>
-    <state x="390" y="26" width="745" height="891" key="CommitChangelistDialog2/0.0.1280.980@0.0.1280.980" timestamp="1625988702549" />
+    <state x="390" y="26" width="745" height="891" key="CommitChangelistDialog2/0.0.1280.980@0.0.1280.980" timestamp="1625990056325" />
     <state x="2505" y="28" width="749" height="945" key="CommitChangelistDialog2/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1625867359696" />
     <state x="2660" y="281" key="FileChooserDialogImpl" timestamp="1625865654741">
       <screen x="1920" y="0" width="1920" height="1040" />
@@ -462,10 +467,10 @@
       <screen x="0" y="0" width="1280" height="980" />
     </state>
     <state x="475" y="412" key="NewPhpFileDialog/0.0.1280.980@0.0.1280.980" timestamp="1625987872719" />
-    <state x="368" y="256" key="Vcs.Push.Dialog.v2" timestamp="1625988033227">
+    <state x="368" y="256" key="Vcs.Push.Dialog.v2" timestamp="1625990058748">
       <screen x="0" y="0" width="1280" height="980" />
     </state>
-    <state x="368" y="256" key="Vcs.Push.Dialog.v2/0.0.1280.980@0.0.1280.980" timestamp="1625988033227" />
+    <state x="368" y="256" key="Vcs.Push.Dialog.v2/0.0.1280.980@0.0.1280.980" timestamp="1625990058748" />
     <state x="2472" y="272" key="Vcs.Push.Dialog.v2/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1625867362580" />
     <state x="176" y="0" width="1662" height="1055" key="dock-window-1" timestamp="1624562355363">
       <screen x="0" y="0" width="1920" height="1040" />

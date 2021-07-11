@@ -34,23 +34,14 @@
         }
     });
 </script>
-<style>    
-    tr.img_row {
-        max-height: 100px !important;
-        overflow: scroll;
-    }
-
-    td.img_container {
-        max-height: 100px !important;
-        max-width: 150px !important;
-        overflow-x: scroll;
-    }
+<style>   
 
     .img_container img {
         max-height: 30px;
         max-width: 30px;
         float: left;
     }
+    
 </style>
 
 
@@ -77,20 +68,42 @@
 
     <div>
         <paginator v-bind:pages="pages"></paginator>
+
+        <div class="border border-dark rounded mx-3 my-3 px-2 py-2" v-for="(request,index) in requests" style="display: table">
+            <div class="block  col-lg-4 col-md-6 float-left">
+                <div class=" col-lg-1">ID:{{request.id}}</div>
+                <div class=" col-lg-11">Наименование объекта:{{request.object_name}}</div>
+            </div>
+            <div class="block  col-lg-3 float-left">
+                <div>Добавлена <span class="float-right">{{request.date_add}}</span></div>
+                <div v-if="request.date_done">Выполнил <span class="float-right">{{request.date_done}}</span></div>
+                <div v-if="request.user_check_date">Проверил <span class="float-right">{{request.user_check_date}}</span></div>
+                <div v-if="request.common_date">Принял <span class="float-right">{{request.common_date}}</span></div>
+            </div>
+            <div class="block  col-lg-5 float-left">
+                <div class="class col-lg-12">Описание:{{request.description}}</div>
+            </div>
+            <div class="block  col-lg-4 float-left">
+                <div>Выполненные работы</div>
+                <div class="col-lg-12">
+                    <textarea v-if="user_role_id==4 && request.done_work==''" class="form-control" v-model="request.cur_comment"></textarea>
+                    <button class="btn btn-success btn-sm" v-if="user_role_id==4 && request.done_work==''" v-on:click="save_cur_comment(request.id,index)"><i class="fa fa-check"></i></button>
+                    <button class="btn btn-danger btn-sm" v-if="user_role_id==4 && request.done_work==''" v-on:click="request.cur_comment=''"><i class="fa fa-times"></i></button>
+                    {{request.done_work}}
+                </div>
+            </div>
+            <div class="block  col-lg-4 float-left img_container">
+                Фото :
+                <img v-if="request.file_path" v-for="path in request.file_path" v-bind:src="path" class="thumb" style="width:100px;height:100px" v-on:click="el._data.cur_photo = path" data-toggle="modal" data-target="#cur_photo_dialog">
+                <input v-if="request.file_path=='' && user_role_id==4" type="file" v-bind:ref="'file_'+index" v-model='cur_file_upload[index]' v-on:change="save_cur_files(request.id,index)" multiple>
+            </div>
+            <div class="block  col-lg-2 float-left">
+                <button class="btn btn-success btn-sm" v-if="user_role_id==3 && request.user_check_date=='' && request.date_done!=''" v-on:click="update_check_date(request.id,index,'user_check_date')"><i class="fa fa-check"></i>
+                </button>
+                <button class="btn btn-success btn-sm" v-if="user_role_id==2 && request.common_date=='' && request.user_check_date!=''" v-on:click="update_check_date(request.id,index,'common_date')"><i class="fa fa-check"></i></button>
+            </div>
+        </div>
         <!--
-         <div class="class col-lg-2">
-             <div class="class col-lg-1">#</div>
-             <div class="class col-lg-11">Объект</div>
-         </div>
-         <div class="class col-lg-2">            
-             <div class="class col-lg-12">Добавлена</div>
-         </div>
-         <div class="class col-lg-4">
-             <div class="class col-lg-12">Описание</div>
-         </div>
-         <div class="class col-lg-4">
-             <div class="class col-lg-12">Описание</div>
-         </div>-->
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -121,28 +134,28 @@
                     {{request.done_work}}
                 </td>
                 <td class="img_container">
-                    <img  v-if="request.file_path" v-for="path in request.file_path" v-bind:src="path" class="thumb" style="width:100px;height:100px" v-on:click="el._data.cur_photo = path" data-toggle="modal" data-target="#cur_photo_dialog">
-                    <input v-if="request.file_path=='' && user_role_id==4" type="file" v-bind:ref="'file_'+index" v-model='cur_file_upload[index]' v-on:change="save_cur_files(request.id,index)" multiple>
-                    <!--<button class="btn btn-success btn-sm" v-if="user_role_id==4 && request.file_path==''" v-on:click="save_cur_files(request.id,index)"><i class="fa fa-check"></i></button>-->
+                    <img v-if="request.file_path" v-for="path in request.file_path" v-bind:src="path" class="thumb" style="width:100px;height:100px" v-on:click="el._data.cur_photo = path" data-toggle="modal" data-target="#cur_photo_dialog">
+                    <input v-if="request.file_path=='' && user_role_id==4" type="file" v-bind:ref="'file_'+index" v-model='cur_file_upload[index]' v-on:change="save_cur_files(request.id,index)" multiple>                    
                 </td>
                 <td>
-                    <button class="btn btn-success btn-sm" v-if="user_role_id==3 && request.user_check_date=='' && request.date_done!=''" v-on:click="update_check_date(request.id,index,'user_check_date')"><i class="fa fa-check"></i></button>
+                    <button class="btn btn-success btn-sm" v-if="user_role_id==3 && request.user_check_date=='' && request.date_done!=''" v-on:click="update_check_date(request.id,index,'user_check_date')"><i class="fa fa-check"></i>
+                    </button>
                     <button class="btn btn-success btn-sm" v-if="user_role_id==2 && request.common_date=='' && request.user_check_date!=''" v-on:click="update_check_date(request.id,index,'common_date')"><i class="fa fa-check"></i></button>
                 </td>
             </tr>
             </tbody>
 
-        </table>
+        </table>-->
         <paginator v-bind:pages="pages"></paginator>
     </div>
-    <?php $this->load->view("work/gallery_modal")?>
-    <?php $this->load->view("work/add_work_modal")?>
+    <?php $this->load->view("work/gallery_modal") ?>
+    <?php $this->load->view("work/add_work_modal") ?>
 </div>
 
 <script src="/resources/js/components.js"></script>
 <script src="https://unpkg.com/vue-pure-lightbox/dist/VuePureLightbox.umd.min.js"></script>
 <script type="text/javascript">
-    el = new Vue({        
+    el = new Vue({
         el: "#request_controller",
         components: {
             'vue-pure-lightbox': window.VuePureLightbox,
@@ -167,8 +180,8 @@
             search_object_id: [],
             error: "",
             file_1: "",
-            cur_file_upload:[],
-            cur_photo : "",
+            cur_file_upload: [],
+            cur_photo: "",
             new_job: {
                 type_id: '',
                 object_id: '',
@@ -193,7 +206,7 @@
                 {
                     id: <?=$row->id?>,
                     description: '<?=$row->description?>',
-                    date_add: '<?=date("d.m.Y H:i",$row->date_add)?>',
+                    date_add: '<?=date("d.m.Y H:i", $row->date_add)?>',
                     object_name: '<?=$row->object_name?>',
                     file_path: [
                         <?php foreach(explode("||", $row->file_path) as $cur_file):?>
@@ -202,9 +215,9 @@
                         <?php endif;?>
                         <?php endforeach;?>
                     ],
-                    done_work: '<?=!empty($row->done_work) ?  $row->done_work : ""?>',
+                    done_work: '<?=!empty($row->done_work) ? $row->done_work : ""?>',
                     date_done: '<?=!empty($row->user_done_date) ? date("d.m.Y H:i", $row->user_done_date) : ""?>',
-                    user_check_date : '<?=!empty($row->user_check_date) ? date("d.m.Y H:i", $row->user_check_date) : ""?>',
+                    user_check_date: '<?=!empty($row->user_check_date) ? date("d.m.Y H:i", $row->user_check_date) : ""?>',
                     common_date: '<?=!empty($row->common_date) ? date("d.m.Y H:i", $row->common_date) : ""?>',
                 },
                 <?php endforeach;?>
@@ -224,7 +237,7 @@
                 let formData = new FormData()
                 if (this._data.user_role_id == 4) {
                     if (this._data.file_1) {
-                        let length = this.$refs.file.files.length                         
+                        let length = this.$refs.file.files.length
                         for (let i = 0; i < length; i++) {
                             formData.append('file' + i, this.$refs.file.files[i])
                             let file = this.$refs.file.files[i];
@@ -280,16 +293,16 @@
                     console.log(e)
                 })
             },
-            save_cur_files: function(id,index){                                
+            save_cur_files: function (id, index) {
                 let error_file_message = "Недопустимое расширение файла! Допускается pdf,gif, jpg,png"
                 let file_max_size = "Размер файла не должен превышать 10МБ";
                 let formData = new FormData()
-                if (this._data.user_role_id == 4) {                    
-                    if (this.$refs['file_'+index]) {
-                        let length = this.$refs['file_'+index][0].files.length                                                
-                        for (let i = 0; i < length; i++) {    
-                            formData.append('file' + i, this.$refs['file_'+index][0].files[i])                            
-                            let file = this.$refs['file_'+index][0].files[i];                            
+                if (this._data.user_role_id == 4) {
+                    if (this.$refs['file_' + index]) {
+                        let length = this.$refs['file_' + index][0].files.length
+                        for (let i = 0; i < length; i++) {
+                            formData.append('file' + i, this.$refs['file_' + index][0].files[i])
+                            let file = this.$refs['file_' + index][0].files[i];
                             if (file.size > 10 * 1024 * 1024) {
                                 alert(file_max_size);
                                 return;
@@ -299,13 +312,13 @@
                                 return;
                             }
                         }
-                        is_exist = this.$refs['file_'+index][0].files[0].value;
-                    }else{
+                        is_exist = this.$refs['file_' + index][0].files[0].value;
+                    } else {
                         return
                     }
-                }else{
+                } else {
                     return
-                }                
+                }
                 axios.post("/work/upload_file/" + id, formData,
                     {
                         headers: {
@@ -380,13 +393,13 @@
                     console.log(e)
                 })
             },
-            save_cur_comment: function(id,index){
+            save_cur_comment: function (id, index) {
                 axios.post("/work/save_worker_comment/" + id, {
-                    comment: this.requests[index].cur_comment,                    
+                    comment: this.requests[index].cur_comment,
                 }).then(function (result) {
                     switch (result.data.status) {
                         case 200:
-                            el._data.requests[index].done_work = el._data.requests[index].cur_comment;                            
+                            el._data.requests[index].done_work = el._data.requests[index].cur_comment;
                             break;
                         case 300:
                             break;
@@ -395,11 +408,11 @@
                     console.log(e)
                 })
             },
-            update_check_date : function(id,index, type){
-                axios.post("/work/update_check_date/" + id +'/'+type, {}).then(function (result) {
+            update_check_date: function (id, index, type) {
+                axios.post("/work/update_check_date/" + id + '/' + type, {}).then(function (result) {
                     switch (result.data.status) {
                         case 200:
-                            switch(type){
+                            switch (type) {
                                 case 'user_check_date':
                                     el._data.requests[index].user_check_date = result.data.content;
                                     break;
@@ -416,5 +429,5 @@
                 })
             }
         }
-    })    
+    })
 </script>
