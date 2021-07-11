@@ -23,6 +23,7 @@ class Work extends CI_Controller
         $this->load->model("user_model");
         $this->load->model("work_model");
         $this->load->model("object_model");
+        $this->load->model("mail_model");
     }
 
     public function index() {
@@ -45,9 +46,38 @@ class Work extends CI_Controller
             if (empty($common_info['type_id'])) {
                 throw new Exception("Ошибка заполнения формы!", 300);
             }
+            $type = 'client';
+            $subject = "";
+            $body = "";
+            switch($user_data['role_id']){
+                case 2:
+                    $type = 'client';
+                    $subject = "Добавлена новая задача";
+                    $body = "По объекту добавлена новая задача<br/>";
+                    break;
+                case 3:
+                    $type = 'engineer';
+                    $subject = "Добавлена новая задача";
+                    $body = "По объекту добавлена новая задача<br/>";
+                    break;
+                case 4:
+                    $type = 'worker';
+                    $subject = "Добавлена новая задача";
+                    $body = "По объекту добавлена новая задача<br/>";
+                    break;
+            }
             $res = $this->work_model->add_new_request($common_info);
             if (!$res) {
                 throw new Exception("Ошибка обращения к базе данных!", 2);
+            }
+            $user_to_send_mail = $this->work_model->get_user($res, $type);
+            if(!empty($user_to_send_mail)){                
+                foreach($user_to_send_mail as $row){
+                    $email_send = $this->mail_model->send($row,$subject,$body);
+                    if(empty($email_send)){
+                        throw new Exception("Задача добавлена! Ошибка отправки почты!",300);
+                    }
+                }
             }
             $result = [
                 "status" => 200,
@@ -121,6 +151,7 @@ class Work extends CI_Controller
     }
 
     public function show_work_table() {
+        echo base_url();
         $user_data = $this->session->userdata();
         $type_list = $this->work_model->get_type_list();
         $search_params = [

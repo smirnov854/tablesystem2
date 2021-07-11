@@ -149,5 +149,50 @@ class Work_model extends CI_Model
         }        
         return $this->db->where("id",$id)->update("requests",$update_arr);
     }
-
+    
+    public function get_user($id, $type = 'worker'){
+        if(empty($id) || !is_numeric($id)){
+            return FALSE;
+        }
+        
+        $sql = "
+        SELECT rq.id, rq.object_id, 
+                               uo.user_id, 
+                               u_eng.id, u_worker.id, u_client.id,
+                               u_eng.email as eng_email, 
+                               u_worker.email as worker_email,
+                               u_client.email as client_email
+                        FROM requests rq
+                        LEFT JOIN objects o ON o.id=rq.object_id
+                        LEFT JOIN user_object uo ON uo.object_id=o.id
+                        LEFT JOIN users u_client ON u_client.id=uo.user_id AND u_client.role_id = 2
+                        LEFT JOIN users u_eng ON u_eng.id=uo.user_id AND u_eng.role_id = 3
+                        LEFT JOIN users u_worker ON u_worker.id=uo.user_id AND u_worker.role_id = 4
+                        WHERE rq.id=$id";
+        /*
+        switch($type){
+            case 'client':
+                $sql.= " AND  (u_eng.email IS NOT NULL OR u_worker.email IS NOT NULL) ";
+                $req = $this->db->query($sql);
+                break;
+            case 'engineer':
+                $sql.=" AND  (u_client.email IS NOT NULL OR u_worker.email IS NOT NULL) ";
+                $req = $this->db->query($sql);
+                break;
+            case 'worker':
+                $sql.= " AND  (u_client.email IS NOT NULL OR u_eng.email IS NOT NULL) ";
+                
+                break;
+        }*/
+        $req = $this->db->query($sql);
+        $req = $req->result();   
+        $only_emails = [];
+        foreach($req as $row ){
+            $only_emails[] = $row->eng_email;
+            $only_emails[] = $row->worker_email;
+            $only_emails[] = $row->client_email;
+        }        
+        $res = array_filter($only_emails);
+        return $res;
+    }
 }

@@ -31,11 +31,12 @@ class Mail_model extends CI_Model
         $mail->isHTML(true);
         $mail->Subject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
         $mail->Body = $body;
+        /*
         if(!empty($attachments)){
             foreach($attachments as $row){
                 $mail->addAttachment($row);
             }
-        }
+        }*/
 
         $res = $mail->send();
 
