@@ -15,3 +15,4 @@
     <meta name="viewport" content="width=600px, initial-scale=1">
 </head>
 <body>
+<div class="container-fluid">
