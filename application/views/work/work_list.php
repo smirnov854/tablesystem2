@@ -35,7 +35,7 @@
     });
 </script>
 <style>
-    tr{
+    tr td{
         max-height: 100px;
         overflow: scroll;
     }
