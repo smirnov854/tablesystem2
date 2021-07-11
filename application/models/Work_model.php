@@ -15,7 +15,7 @@ class Work_model extends CI_Model
         extract($search_params);        
         $sql = "SELECT SQL_CALC_FOUND_ROWS req.*, 
                        GROUP_CONCAT(rf.file_path SEPARATOR '||') as file_path,
-                       FROM_UNIXTIME(req.date_add) as date_add,
+                       req.date_add as date_add,
                        o.name as object_name, 
                        usr.name as add_user_name, 
                        usr1.name as done_user,
