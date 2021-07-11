@@ -41,6 +41,11 @@
         max-width: 30px;
         float: left;
     }
+    .block{
+        max-height:100px!important;
+        overflow: auto;
+        margin-top: 10px;
+    }
     
 </style>
 
@@ -70,21 +75,21 @@
         <paginator v-bind:pages="pages"></paginator>
 
         <div class="border border-dark rounded mx-3 my-3 px-2 py-2" v-for="(request,index) in requests" style="display: table">
-            <div class="block  col-lg-4 col-md-6 float-left">
-                <div class=" col-lg-1">ID:{{request.id}}</div>
-                <div class=" col-lg-11">Наименование объекта:{{request.object_name}}</div>
+            <div class="block col-lg-4 col-md-6 col-sm-6 float-left">
+                <div class="col-lg-1">ID:{{request.id}}</div>
+                <div class="col-lg-11">Наименование объекта:{{request.object_name}}</div>
             </div>
-            <div class="block  col-lg-3 float-left">
+            <div class="block col-lg-3 col-md-6 col-sm-6 float-left">
                 <div>Добавлена <span class="float-right">{{request.date_add}}</span></div>
                 <div v-if="request.date_done">Выполнил <span class="float-right">{{request.date_done}}</span></div>
                 <div v-if="request.user_check_date">Проверил <span class="float-right">{{request.user_check_date}}</span></div>
                 <div v-if="request.common_date">Принял <span class="float-right">{{request.common_date}}</span></div>
             </div>
-            <div class="block  col-lg-5 float-left">
+            <div class="block col-lg-5 col-md-6 col-sm-12 float-left">
                 <div class="class col-lg-12">Описание:{{request.description}}</div>
             </div>
-            <div class="block  col-lg-4 float-left">
-                <div>Выполненные работы</div>
+            <div class="block col-lg-4 col-md-4 col-sm-6 float-left">
+                <div class="col-lg-12">Работы</div>
                 <div class="col-lg-12">
                     <textarea v-if="user_role_id==4 && request.done_work==''" class="form-control" v-model="request.cur_comment"></textarea>
                     <button class="btn btn-success btn-sm" v-if="user_role_id==4 && request.done_work==''" v-on:click="save_cur_comment(request.id,index)"><i class="fa fa-check"></i></button>
@@ -92,60 +97,17 @@
                     {{request.done_work}}
                 </div>
             </div>
-            <div class="block  col-lg-4 float-left img_container">
-                Фото :
+            <div class="block  col-lg-4 col-md-4 col-sm-6 float-left img_container">
+                <span class="float-left">Фото  : </span>
                 <img v-if="request.file_path" v-for="path in request.file_path" v-bind:src="path" class="thumb" style="width:100px;height:100px" v-on:click="el._data.cur_photo = path" data-toggle="modal" data-target="#cur_photo_dialog">
                 <input v-if="request.file_path=='' && user_role_id==4" type="file" v-bind:ref="'file_'+index" v-model='cur_file_upload[index]' v-on:change="save_cur_files(request.id,index)" multiple>
             </div>
-            <div class="block  col-lg-2 float-left">
+            <div class="block  col-lg-2 col-md-2 col-sm-2 float-left">
                 <button class="btn btn-success btn-sm" v-if="user_role_id==3 && request.user_check_date=='' && request.date_done!=''" v-on:click="update_check_date(request.id,index,'user_check_date')"><i class="fa fa-check"></i>
                 </button>
                 <button class="btn btn-success btn-sm" v-if="user_role_id==2 && request.common_date=='' && request.user_check_date!=''" v-on:click="update_check_date(request.id,index,'common_date')"><i class="fa fa-check"></i></button>
             </div>
-        </div>
-        <!--
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>Объект</th>
-                <th>Даты</th>
-                <th>Описание</th>
-                <th>Работы</th>
-                <th>Фото</th>
-                <th>Действия</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="img_row" v-for="(request,index) in requests">
-                <td>{{request.id}}</td>
-                <td>{{request.object_name}}</td>
-                <td width="230px">
-                    <div>Добавлена <span class="float-right">{{request.date_add}}</span></div>
-                    <div v-if="request.date_done">Выполнил <span class="float-right">{{request.date_done}}</span></div>
-                    <div v-if="request.user_check_date">Проверил <span class="float-right">{{request.user_check_date}}</span></div>
-                    <div v-if="request.common_date">Принял <span class="float-right">{{request.common_date}}</span></div>
-                </td>
-                <td>{{request.description}}</td>
-                <td>
-                    <textarea v-if="user_role_id==4 && request.done_work==''" class="form-control" v-model="request.cur_comment"></textarea>
-                    <button class="btn btn-success btn-sm" v-if="user_role_id==4 && request.done_work==''" v-on:click="save_cur_comment(request.id,index)"><i class="fa fa-check"></i></button>
-                    <button class="btn btn-danger btn-sm" v-if="user_role_id==4 && request.done_work==''" v-on:click="request.cur_comment=''"><i class="fa fa-times"></i></button>
-                    {{request.done_work}}
-                </td>
-                <td class="img_container">
-                    <img v-if="request.file_path" v-for="path in request.file_path" v-bind:src="path" class="thumb" style="width:100px;height:100px" v-on:click="el._data.cur_photo = path" data-toggle="modal" data-target="#cur_photo_dialog">
-                    <input v-if="request.file_path=='' && user_role_id==4" type="file" v-bind:ref="'file_'+index" v-model='cur_file_upload[index]' v-on:change="save_cur_files(request.id,index)" multiple>                    
-                </td>
-                <td>
-                    <button class="btn btn-success btn-sm" v-if="user_role_id==3 && request.user_check_date=='' && request.date_done!=''" v-on:click="update_check_date(request.id,index,'user_check_date')"><i class="fa fa-check"></i>
-                    </button>
-                    <button class="btn btn-success btn-sm" v-if="user_role_id==2 && request.common_date=='' && request.user_check_date!=''" v-on:click="update_check_date(request.id,index,'common_date')"><i class="fa fa-check"></i></button>
-                </td>
-            </tr>
-            </tbody>
-
-        </table>-->
+        </div>        
         <paginator v-bind:pages="pages"></paginator>
     </div>
     <?php $this->load->view("work/gallery_modal") ?>
