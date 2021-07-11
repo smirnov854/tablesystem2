@@ -1,9 +1,10 @@
 <?php
 $user_data = $this->session->userdata();
 ?>
-<div>
+<div class="col-lg-12 col-md-12 col-sm-12">
     <nav class="navbar navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-dark bg-dark">
         <a class="navbar-brand text-white">Ресурс</a>
+        <a class="btn btn-danger float-right" href="/login/logout">x</a>
         <div class="collapse-in navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="navbar-nav mr-auto">
                 <?php if ($user_data['role_id'] == 1): ?>
@@ -27,8 +28,8 @@ $user_data = $this->session->userdata();
                 <?php endif; ?>
 
             </ul>
-            <a class="btn btn-danger" href="/login/logout">x</a>
         </div>
+        
     </nav>
 </div>    
 
