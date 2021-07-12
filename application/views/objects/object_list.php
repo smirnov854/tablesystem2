@@ -64,7 +64,7 @@
             current_page: 1,
             total_rows: <?=$total_rows?>,
             per_page: 25,
-            pages:[1,2,3],
+            pages:<?=$total_rows > 25 ? '[1,2,3]':'[]'?>,
             error:"",
             new_object:{
                 edit_id:0,
