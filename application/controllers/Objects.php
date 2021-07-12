@@ -59,7 +59,7 @@ class Objects extends CI_Controller
         echo json_encode($result);
     }    
 
-    public function add_new_object($id) {
+    public function add_new_object($id=0) {
         $params = json_decode(file_get_contents('php://input'));        
         $common_info = array(
             "name" => $params->name,
