@@ -292,6 +292,7 @@
                     switch (response.data.status) {
                         case 200:
                             alert("Успешно добавлено!");
+                            el.search()
                             break;
                         default:
                             alert(response.data.message)
