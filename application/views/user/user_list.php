@@ -29,7 +29,7 @@
             <th>Почта</th>
             <th>ФИО</th>
             <th>Роль</th>
-            <th>Объекты</th>
+           <!-- <th>Объекты</th>-->
             <th>Действия</th>
         </tr>
         </thead>
@@ -40,7 +40,7 @@
             <td>{{user.email}}</td>
             <td>{{user.name}}</td>
             <td>{{user.role_name}}</td>
-            <td>{{user.object_cnt}}</td>
+            <!--<td>{{user.object_cnt}}</td>-->
             <td>
                 <span class="fa fa-pencil edit-user" v-on:click="edit_user(user.id,user.email,user.name,user.role_name,user.object_ids,user.role_id)"></span>
                 <span class="fa fa-remove edit-user" v-on:click="delete_user(index,user.id)"></span>

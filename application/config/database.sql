@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `type_of_work`(
   `id` INT PRIMARY KEY AUTO_INCREMENT,
   `name` VARCHAR(250)  
 );
-
+ALTER TABLE `type_of_work` ADD `is_delete` INT NOT NULL AFTER `name`;
 INSERT INTO `type_of_work` (`id`, `name`) VALUES (NULL, 'Техническое обслуживание1');
 INSERT INTO `type_of_work` (`id`, `name`) VALUES (NULL, 'Техническое обслуживание2');
 INSERT INTO `type_of_work` (`id`, `name`) VALUES (NULL, 'Техническое обслуживание3');

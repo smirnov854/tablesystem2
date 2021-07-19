@@ -9,6 +9,7 @@ $user_data = $this->session->userdata();
             <?php if ($user_data['role_id'] == 1): ?>
                 <li class="nav-item"><a class="nav-link" href="/user/show_users">Пользователи</a></li>
                 <li class="nav-item"><a class="nav-link" href="/objects">Объекты</a></li>
+                <li class="nav-item"><a class="nav-link" href="/work/show_type_of_works">Типы работ</a></li>
                 <li class="nav-item">
                     <a href="/work/show_work_table" class="nav-link">Таблица<span class="caret"></span></a>
                     <!--  <div class="dropdown-menu" role="menu"></div>-->

@@ -5,8 +5,26 @@ class Work_model extends CI_Model
 
     
     public function get_type_list(){
-        $res  = $this->db->get("type_of_work");
+        $res  = $this->db->where("is_delete",0)->get("type_of_work");
         return $res->result();
+    }
+    
+    public function add_new_work_type($common_info){
+        if (empty($common_info)) {
+            return FALSE;
+        }        
+        $query = $this->db->insert("type_of_work", $common_info);
+        if (!$query) {
+            return FALSE;
+        }
+        return $this->db->insert_id();
+    }
+
+    public function edit_work_type($id,$common_info){
+        if(empty($id) || !is_numeric($id)){
+            return false;
+        }
+        return $this->db->where("id",$id)->update("type_of_work",$common_info);
     }
         
     

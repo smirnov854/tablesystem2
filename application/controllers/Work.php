@@ -273,6 +273,71 @@ class Work extends CI_Controller
         echo json_encode($result);
     }
     
+    public function show_type_of_works(){
+        $list = $this->work_model->get_type_list();
+        $this->load->view('includes/header');
+        $this->load->view("includes/menu");        
+        $this->load->view("work/work_type", [
+            "list" => $list
+        ]);
+        $this->load->view('includes/footer');
+    }
+    
+    public function add_new_work_type($id){
+        $params = json_decode(file_get_contents('php://input'));
+        $common_info = array(
+            "name" => $params->name,           
+        );
+        try {
+            if (empty($common_info['name'])){
+                throw new Exception("Ошибка заполнения формы!", 300);
+            }
+            if(!empty($id)){
+                if(!is_numeric($id)){
+                    throw new Exception("Ошибка получени id!", 300);
+                }
+                $res = $this->work_model->edit_work_type($id,$common_info);
+                if (!$res) {
+                    throw new Exception("Ошибка обращения к базе данных!", 2);
+                }
+            }else{                
+                $res = $this->work_model->add_new_work_type($common_info);
+                if (!$res) {
+                    throw new Exception("Ошибка обращения к базе данных!", 2);
+                }
+            }
+
+            $result = [
+                "status" => 200,
+                "message" => "Объект добавлен!"
+            ];
+        } catch (Exception $ex) {
+            $result = array("message" => $ex->getMessage(),
+                "status" => $ex->getCode());
+        }
+        echo json_encode($result);
+    }
+    
+    public function set_delete_work_type($id){
+
+        try {
+            if(empty($id) || !is_numeric($id)){
+                throw new Exception("Ошибка получения id!",301);
+            }
+            if(!$this->work_model->edit_work_type($id,['is_delete'=>1])){
+                throw new Exception('Ошибка простановки статуса Удален',302);
+            }
+            $result = [
+                "status" => 200,
+            ];
+        } catch (Exception $ex) {
+            $result = array("message" => $ex->getMessage(),
+                "status" => $ex->getCode());
+        }
+        echo json_encode($result);
+        
+    }
+    
     public function generate_data() {
         $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz';
         for ($i = 0; $i < 10000; $i++) {
