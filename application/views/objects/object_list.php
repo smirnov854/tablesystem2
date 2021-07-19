@@ -64,7 +64,7 @@
             current_page: 1,
             total_rows: <?=$total_rows?>,
             per_page: 25,
-            pages:<?=$total_rows > 25 ? '[1,2,3]':'[]'?>,
+            pages:[],
             error:"",
             new_object:{
                 edit_id:0,
@@ -154,12 +154,7 @@
                             el._data.objects.splice()
                             el._data.objects = result.data.content;
                             el._data.total_rows = result.data.total_rows;
-                            el._data.pages.splice(0);
-
-                            for(let z=1;z<=Math.ceil(el._data.total_rows/el._data.per_page);z++){
-                                el._data.pages.push(z)
-                            }
-
+                            el.count_pages()                            
                             break;
                         case 300:
                             break;
@@ -168,6 +163,18 @@
                     console.log(e)
                 })
             },
-        }
+            count_pages: function(){
+                el._data.pages.splice(0);
+                for(let z=1;z<=Math.ceil(el._data.total_rows/el._data.per_page);z++){
+                    el._data.pages.push(z)
+                }
+            },            
+        },
+        beforeMount: function(){
+            this._data.pages.splice(0);
+            for(let z=1;z<=Math.ceil(this._data.total_rows/this._data.per_page);z++){
+                this._data.pages.push(z)
+            }
+        }        
     })
 </script>

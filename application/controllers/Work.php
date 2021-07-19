@@ -72,7 +72,7 @@ class Work extends CI_Controller
             }
             $user_to_send_mail = $this->work_model->get_user($res, $type);
             if(!empty($user_to_send_mail)){                
-                foreach($user_to_send_mail as $row){
+                foreach($user_to_send_mail as $row){                    
                     $email_send = $this->mail_model->send($row,$subject,$body);
                     if(empty($email_send)){
                         throw new Exception("Задача добавлена! Ошибка отправки почты!",300);

@@ -165,10 +165,15 @@ class User extends CI_Controller
             if(empty($user_id)){
                 throw new Exception("Ошибка получения номера пользователя!",300);
             }           
-            if (empty($common_info['email']) || empty($common_info['password']) || empty($common_info['name'])) {
-                throw new Exception("Ошибка заполнения формы!", 1);
+            if(empty($params->password)){
+                unset($common_info['password']);
+            }else{
+                $common_info['password'] = password_hash($common_info["password"], PASSWORD_BCRYPT);
+            }
+            if (empty($common_info['email']) || empty($common_info['name'])) {
+                throw new Exception("Ошибка заполнения формы!", 300);
             }            
-            $common_info['password'] = password_hash($common_info["password"], PASSWORD_BCRYPT);            
+                        
             /*$res = $this->user_model->check_email($common_info['email'],$user_id);
             if (!$res) {
                 throw new Exception("Выбранный email занят! Выберите другой", 2);

@@ -38,8 +38,7 @@ class Mail_model extends CI_Model
             }
         }*/
 
-        $res = $mail->send();
-        
+        $res = $mail->send();        
         return $res;
     }
     

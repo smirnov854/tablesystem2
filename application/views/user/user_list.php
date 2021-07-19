@@ -42,7 +42,7 @@
             <td>{{user.role_name}}</td>
             <td>{{user.object_cnt}}</td>
             <td>
-                <span class="fa fa-pencil edit-user" v-on:click="edit_user(user.id,user.email,user.fio,user.role_name,user.object_ids,user.role_id)"></span>
+                <span class="fa fa-pencil edit-user" v-on:click="edit_user(user.id,user.email,user.name,user.role_name,user.object_ids,user.role_id)"></span>
                 <span class="fa fa-remove edit-user" v-on:click="delete_user(index,user.id)"></span>
             </td>
         </tr>
@@ -111,6 +111,7 @@
                     id: <?=$row->id?>,
                     name: '<?=$row->name?>',
                     email: '<?=$row->email?>',
+                    role_id: '<?=$row->role_id?>',
                     role_name: '<?=$row->role_name?>',
                     object_cnt: '<?= !empty($row->object_cnt) ? $row->object_cnt : ""?>',
                     object_ids: '<?= !empty($row->object_ids) ? $row->object_ids : ""?>'
@@ -139,6 +140,7 @@
                 if (this.new_user.edit_id != 0) {
                     url = "/user/edit_user/" + this.new_user.edit_id;
                 }
+                document.querySelector(".close_dialog").click();
                 axios.post(url, {
                     user_name: new_user.user_name,
                     role_id: new_user.role_id,
@@ -148,7 +150,7 @@
                 }).then(function (result) {
                     switch (result.data.status) {
                         case 200:                            
-                            document.querySelector(".close_dialog").click();  
+                            
                             el.search(1);
                             break;
                         case 300:
@@ -175,7 +177,7 @@
                 this.new_user.email = email
                 this.new_user.role_id = role_id
                 this.new_user.user_name = fio
-                this.new_user.role_name = role_name
+                this.new_user.role_name = role_name                
                 if (object_ids.length > 0) {
                     var object_list = object_ids.split(",");
                     for (var i in object_list) {

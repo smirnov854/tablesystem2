@@ -21,6 +21,11 @@
   <component name="ChangeListManager">
     <list default="true" id="38bbc89c-9845-484c-add2-086f1843426c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/Work.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Work.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/Mail_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Mail_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/objects/object_list.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/objects/object_list.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/user/user_list.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/user/user_list.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/work/work_list.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/work/work_list.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -89,7 +94,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../horoscope" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
@@ -132,7 +137,9 @@
       <workItem from="1625767249858" duration="5220000" />
       <workItem from="1625811353602" duration="12968000" />
       <workItem from="1625834967793" duration="4882000" />
-      <workItem from="1625903052500" duration="12940000" />
+      <workItem from="1625903052500" duration="13496000" />
+      <workItem from="1626026508429" duration="518930000" />
+      <workItem from="1626715494936" duration="1805000" />
     </task>
     <task id="LOCAL-00001" summary="create_project">
       <created>1621875925847</created>
@@ -414,7 +421,28 @@
       <option name="project" value="LOCAL" />
       <updated>1625993954724</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="Fix several bugs">
+      <created>1626025989644</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1626025989644</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Fix several bugs">
+      <created>1626115526819</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1626115526819</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Fix several bugs">
+      <created>1626115535850</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1626115535850</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -456,16 +484,16 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2557" y="220" key="#Options/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1625166111617" />
-    <state x="390" y="26" width="745" height="891" key="CommitChangelistDialog2" timestamp="1625993953855">
-      <screen x="0" y="0" width="1280" height="980" />
+    <state x="2505" y="28" width="745" height="891" key="CommitChangelistDialog2" timestamp="1626115535186">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="390" y="26" width="745" height="891" key="CommitChangelistDialog2/0.0.1280.980@0.0.1280.980" timestamp="1625993953855" />
-    <state x="2505" y="28" width="749" height="945" key="CommitChangelistDialog2/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1625867359696" />
-    <state x="2660" y="281" key="FileChooserDialogImpl" timestamp="1625865654741">
+    <state x="2505" y="28" width="749" height="945" key="CommitChangelistDialog2/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1626115535186" />
+    <state x="2660" y="281" key="FileChooserDialogImpl" timestamp="1626026519679">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="493" y="265" key="FileChooserDialogImpl/0.0.1280.980@0.0.1280.980" timestamp="1625290316501" />
-    <state x="2660" y="281" key="FileChooserDialogImpl/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1625865654741" />
+    <state x="2660" y="281" key="FileChooserDialogImpl/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1626026519679" />
     <state x="2460" y="274" key="IDE.errors.dialog" timestamp="1621875975848">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
@@ -474,11 +502,11 @@
       <screen x="0" y="0" width="1280" height="980" />
     </state>
     <state x="475" y="412" key="NewPhpFileDialog/0.0.1280.980@0.0.1280.980" timestamp="1625987872719" />
-    <state x="368" y="256" key="Vcs.Push.Dialog.v2" timestamp="1625993955946">
-      <screen x="0" y="0" width="1280" height="980" />
+    <state x="2472" y="272" key="Vcs.Push.Dialog.v2" timestamp="1626633709782">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="368" y="256" key="Vcs.Push.Dialog.v2/0.0.1280.980@0.0.1280.980" timestamp="1625993955946" />
-    <state x="2472" y="272" key="Vcs.Push.Dialog.v2/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1625867362580" />
+    <state x="2472" y="272" key="Vcs.Push.Dialog.v2/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1626633709782" />
     <state x="176" y="0" width="1662" height="1055" key="dock-window-1" timestamp="1624562355363">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

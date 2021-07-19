@@ -75,7 +75,7 @@
     <div>
         <paginator v-bind:pages="pages"></paginator>
 
-        <div class="border border-dark rounded mx-3 my-3 px-2 py-2" v-for="(request,index) in requests" style="display: table">
+        <div class="border border-dark rounded mx-3 my-3 px-2 py-2" v-for="(request,index) in requests" style="display: table; width:100%">
             <div class="block col-lg-4 col-md-6 col-sm-6 float-left">
                 <div class="col-lg-1">ID:{{request.id}}</div>
                 <div class="col-lg-11">Наименование объекта:{{request.object_name}}</div>
@@ -108,7 +108,8 @@
                 </button>
                 <button class="btn btn-success btn-sm" v-if="user_role_id==2 && request.common_date=='' && request.user_check_date!=''" v-on:click="update_check_date(request.id,index,'common_date')"><i class="fa fa-check"></i></button>
             </div>
-        </div>        
+        </div>      
+        
         <paginator v-bind:pages="pages"></paginator>
     </div>
     <?php $this->load->view("work/gallery_modal") ?>
@@ -216,6 +217,7 @@
                         is_exist = this.$refs.file.value;
                     }
                 }
+                document.querySelector(".close_dialog").click();
                 axios.post("/work/add_new_job", {
                     type: this._data.new_job.type_id,
                     description: this._data.new_job.description,
