@@ -189,6 +189,8 @@
         },
         methods: {
             add_new_job: function (new_job) {
+                document.querySelector(".close_dialog").click();
+                return;
                 let error_file_message = "Недопустимое расширение файла! Допускается pdf,gif, jpg,png"
                 let file_max_size = "Размер файла не должен превышать 10МБ";
 
@@ -218,6 +220,7 @@
                     }
                 }
                 console.log(document.querySelector(".close_dialog"))
+                
                 document.querySelector(".close_dialog").click();
                 axios.post("/work/add_new_job", {
                     type: this._data.new_job.type_id,
@@ -247,8 +250,7 @@
                                 });
                             } else {
                                 alert("Успешно добавлено!");
-                            }
-                            document.querySelector(".close_dialog").click();
+                            }                            
                             document.querySelector(".search_button").click();
                             break;
                         case 300:
