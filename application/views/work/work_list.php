@@ -189,6 +189,7 @@
         },
         methods: {
             add_new_job: function (new_job) {
+                console.log(document.querySelector(".close_dialog"))
                 document.querySelector(".close_dialog").click();
                 return;
                 let error_file_message = "Недопустимое расширение файла! Допускается pdf,gif, jpg,png"
@@ -219,7 +220,7 @@
                         is_exist = this.$refs.file.value;
                     }
                 }
-                console.log(document.querySelector(".close_dialog"))
+                
                 
                 document.querySelector(".close_dialog").click();
                 axios.post("/work/add_new_job", {
