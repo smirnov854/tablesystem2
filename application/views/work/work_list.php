@@ -90,10 +90,10 @@
             <div class="block col-lg-4 col-md-4 col-sm-6 float-left">
                 <div class="col-lg-12">Работы</div>
                 <div class="col-lg-12">
-                    <textarea v-if="user_role_id==4 && request.done_work==''" class="form-control" v-model="request.cur_comment"></textarea>
+                    <textarea v-if="user_role_id==4 && request.done_work==''" class="form-control" v-model="request.cur_comment">{{request.done_work}}</textarea>
                     <button class="btn btn-success btn-sm" v-if="user_role_id==4 && request.done_work==''" v-on:click="save_cur_comment(request.id,index)"><i class="fa fa-check"></i></button>
                     <button class="btn btn-danger btn-sm" v-if="user_role_id==4 && request.done_work==''" v-on:click="request.cur_comment=''"><i class="fa fa-times"></i></button>
-                    {{request.done_work}}
+                    <span v-if="user_role_id!=4 && request.done_work1=''">{{request.done_work}}</span>
                 </div>
             </div>
             <div class="block  col-lg-4 col-md-4 col-sm-6 float-left img_container">
