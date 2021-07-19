@@ -188,10 +188,8 @@
             ]
         },
         methods: {
-            add_new_job: function (new_job) {
-                console.log(document.querySelector(".close_dialog"))
-                document.querySelector(".close_dialog").click();
-                return;
+            add_new_job: function (new_job) {              
+                
                 let error_file_message = "Недопустимое расширение файла! Допускается pdf,gif, jpg,png"
                 let file_max_size = "Размер файла не должен превышать 10МБ";
 
