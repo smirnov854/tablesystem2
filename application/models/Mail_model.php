@@ -39,7 +39,7 @@ class Mail_model extends CI_Model
         }*/
 
         $res = $mail->send();
-        var_dump($mail->ErrorInfo); 
+       // var_dump($mail->ErrorInfo); 
         return $res;
     }
     
