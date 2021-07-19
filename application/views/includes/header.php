@@ -12,7 +12,7 @@
     <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-    <meta name="viewport" content="width=600px, initial-scale=1">
+    <meta name="viewport" content="width=600px, initial-scale=0.8">
 </head>
 <body>
 <div class="container-fluid">
