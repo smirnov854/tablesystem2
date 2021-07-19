@@ -218,8 +218,7 @@
                         }
                         is_exist = this.$refs.file.value;
                     }
-                }
-                document.querySelector("#close_add_job").click();
+                }                
                 axios.post("/work/add_new_job", {
                     type: this._data.new_job.type_id,
                     description: this._data.new_job.description,
@@ -228,8 +227,7 @@
                 }).then(function (result) {
                     switch (result.data.status) {
                         case 200:
-                            if (is_exist) {
-                                document.querySelector(".search_button").click();
+                            if (is_exist) {                               
                                 axios.post("/work/upload_file/" + result.data.request_id, formData,
                                     {
                                         headers: {
@@ -238,6 +236,7 @@
                                     }).then(function (response) {
                                     switch (response.data.status) {
                                         case 200:
+                                            document.querySelector("#close_add_job").click();
                                             alert("Успешно добавлено!");
                                             break;
                                         default:
@@ -248,7 +247,7 @@
                                     alert("Ошибка обращения к серверу!")
                                 });
                             } else {
-                                document.querySelector(".search_button").click();
+                                document.querySelector("#close_add_job").click();
                                 alert("Успешно добавлено!");
                             }                            
                             break;
