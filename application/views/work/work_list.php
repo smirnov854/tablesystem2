@@ -217,6 +217,7 @@
                         is_exist = this.$refs.file.value;
                     }
                 }
+                console.log.log(document.querySelector(".close_dialog"))
                 document.querySelector(".close_dialog").click();
                 axios.post("/work/add_new_job", {
                     type: this._data.new_job.type_id,
