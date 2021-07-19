@@ -359,7 +359,7 @@
             },
             save_cur_comment: function (id, index) {
                 axios.post("/work/save_worker_comment/" + id, {
-                    comment: this.requests[index].cur_comment,
+                    comment: this.requests[index].done_work,
                 }).then(function (result) {
                     switch (result.data.status) {
                         case 200:
