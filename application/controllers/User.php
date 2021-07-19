@@ -113,8 +113,8 @@ class User extends CI_Controller
             "user_id"=>$user_data['id'],
             "role_id"=>$user_data['role_id'],
         ];
-        $objects = $this->object_model->get_list($search_param);
         $total_rows = $this->db->query("SELECT FOUND_ROWS() as cnt")->result();
+        $objects = $this->object_model->get_list($search_param);
         $this->load->view('includes/header');
         $this->load->view("includes/menu");
         $this->load->view("user/user_list", [

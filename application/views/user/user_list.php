@@ -97,7 +97,7 @@
             current_page: 1,
             total_rows: <?=$total_rows?>,
             per_page: 25,
-            pages:<?=$total_rows >25 ? '[1,2,3]' : '[]'?>,
+            pages:<?=$total_rows >25 ? '[1,2]' : '[]'?>,
             fio_search: '',
             object_search: '',
             error: "",
@@ -149,8 +149,7 @@
                     objects: new_user.objects
                 }).then(function (result) {
                     switch (result.data.status) {
-                        case 200:                            
-                            
+                        case 200:  
                             el.search(1);
                             break;
                         case 300:
@@ -202,8 +201,7 @@
                     console.log(e)
                 })
             },
-            search: function (page) {
-                console.log(page);
+            search: function (page) {                
                 axios.post("/user/search/"+page, {
                     role: this._data.role_search,
                     object_id: this._data.object_search,
