@@ -218,8 +218,6 @@
                         is_exist = this.$refs.file.value;
                     }
                 }
-                
-                
                 document.querySelector(".close_dialog").click();
                 axios.post("/work/add_new_job", {
                     type: this._data.new_job.type_id,
@@ -230,6 +228,7 @@
                     switch (result.data.status) {
                         case 200:
                             if (is_exist) {
+                                document.querySelector(".search_button").click();
                                 axios.post("/work/upload_file/" + result.data.request_id, formData,
                                     {
                                         headers: {
@@ -248,9 +247,9 @@
                                     alert("Ошибка обращения к серверу!")
                                 });
                             } else {
+                                document.querySelector(".search_button").click();
                                 alert("Успешно добавлено!");
                             }                            
-                            document.querySelector(".search_button").click();
                             break;
                         case 300:
                             alert(result.data.message);
