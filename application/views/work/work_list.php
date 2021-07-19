@@ -219,7 +219,7 @@
                         is_exist = this.$refs.file.value;
                     }
                 }
-                document.querySelector(".close_dialog").click();
+                document.querySelector("#close_add_job").click();
                 axios.post("/work/add_new_job", {
                     type: this._data.new_job.type_id,
                     description: this._data.new_job.description,

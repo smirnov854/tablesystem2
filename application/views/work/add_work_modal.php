@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-danger close_dialog float-left" data-dismiss="modal">Закрыть</button>
+                <button class="btn btn-danger close_dialog float-left" data-dismiss="modal" id="close_add_job">Закрыть</button>
                 <button class="btn btn-success float-right" id="confirm_add_user" v-on:click="add_new_job(new_job)">Добавить</button>
             </div>
         </div>
