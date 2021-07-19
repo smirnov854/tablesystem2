@@ -35,19 +35,17 @@
     });
 </script>
 <style>   
-
     .img_container img {
         max-height: 30px;
         max-width: 30px;
         float: left;
     }
     .block{
-        max-height: 100px!important;
+        max-height: 130px!important;
         min-height: 50px;
         overflow: auto;
         margin-top: 10px;
-    }
-    
+    }    
 </style>
 
 
