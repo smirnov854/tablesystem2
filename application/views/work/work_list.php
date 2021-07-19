@@ -363,7 +363,7 @@
                 }).then(function (result) {
                     switch (result.data.status) {
                         case 200:
-                            el._data.requests[index].done_work = el._data.requests[index].cur_comment;
+                            el._data.requests[index].done_work = el._data.requests[index].done_work;
                             break;
                         case 300:
                             break;
