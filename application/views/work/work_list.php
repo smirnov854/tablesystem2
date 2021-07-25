@@ -258,12 +258,12 @@
                             } else {
                                 alert("Успешно добавлено!");
                             }
-                            el.search(0);
                             break;
                         case 300:
                             alert(result.data.message);
                             break;
                     }
+                    el.search(0);
                 }).catch(function (e) {
                     console.log(e)
                 })
