@@ -1,5 +1,5 @@
-<div id="cur_photo_dialog" class="modal  fade" role="dialog" tabindex="-1" aria-hidden="true" style="max-width: 100%; max-height: 100%">
-    <div class="modal-dialog modal-lg" role="document">
+<div id="cur_photo_dialog" class="modal  fade" role="dialog" tabindex="-1" aria-hidden="true" >
+    <div class="modal-dialog modal-lg" role="document" style="max-width: 100%; max-height: 100%">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title">
