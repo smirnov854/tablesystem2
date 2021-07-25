@@ -256,9 +256,9 @@
                                     alert("Ошибка обращения к серверу!")
                                 });
                             } else {
-
                                 alert("Успешно добавлено!");
                             }
+                            el.search(0);
                             break;
                         case 300:
                             alert(result.data.message);
