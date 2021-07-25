@@ -70,7 +70,8 @@ class Work extends CI_Controller
             if (!$res) {
                 throw new Exception("Ошибка обращения к базе данных!", 2);
             }
-            $user_to_send_mail = $this->work_model->get_user($res, $type);            
+            $user_to_send_mail = $this->work_model->get_user($res, $type);
+            /*
             if(!empty($user_to_send_mail)){                
                 foreach($user_to_send_mail as $row){                    
                     $email_send = $this->mail_model->send($row,$subject,$body);
@@ -78,7 +79,7 @@ class Work extends CI_Controller
                         throw new Exception("Задача добавлена! Ошибка отправки почты!",300);
                     }
                 }
-            }
+            }*/
             $result = [
                 "status" => 200,
                 "message" => "Заявка добавлена!",
