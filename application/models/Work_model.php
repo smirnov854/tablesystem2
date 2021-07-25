@@ -32,6 +32,7 @@ class Work_model extends CI_Model
     {
         extract($search_params);        
         $sql = "SELECT SQL_CALC_FOUND_ROWS 
+                       req.done_work,
                        req.id,
                        req.type_of_work,
                        req.description,
@@ -72,11 +73,17 @@ class Work_model extends CI_Model
                 switch($status){
                     case "all":
                         break;
-                    case "in_work":
-                        $where[] = " (user_done_date IS NULL OR user_done_date=0)";
+                    case "new":
+                        $where[] = " (user_done_date IS NULL OR user_done_date=0) ";
                         break;
                     case "done":
-                        $where[] = " (user_done_date IS NOT NULL AND user_done_date<>0)";
+                        $where[] = " ((user_done_date>0 AND (user_check_date IS NULL OR user_check_date=0)) ";
+                        break;
+                    case "checked":
+                        $where[] = " (user_check_date>0 AND (common_date IS NULL OR common_date=0)) ";
+                        break;
+                    case "closed":
+                        $where[] = " (common_date IS NOT NULL AND common_date<>0) ";
                         break;
                 }
             }

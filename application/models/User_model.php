@@ -29,11 +29,13 @@ class User_model extends CI_Model
                        r.id as role_id,
                        r.name as role_name, 
                        COUNT(o.id) as object_cnt, 
-                       GROUP_CONCAT(o.id SEPARATOR ',') as object_ids  
+                       GROUP_CONCAT(o.id SEPARATOR ',') as object_ids,
+                       IF(CHAR_LENGTH(GROUP_CONCAT(o.name SEPARATOR ', ')) > 75,SUBSTRING(GROUP_CONCAT(o.name SEPARATOR ', '),1,75) ,GROUP_CONCAT(o.name SEPARATOR ', ') ) as object_names,
+                       GROUP_CONCAT(o.name SEPARATOR ', ')   as object_names_title
                 FROM users u
                 LEFT JOIN role r ON r.id=u.role_id
                 LEFT JOIN  user_object uo ON uo.user_id=u.id
-                LEFT JOIN objects o ON o.id=uo.object_id                        
+                LEFT JOIN objects o ON o.id=uo.object_id                               
                 ";
         $where_res = " WHERE " .implode(" AND ",$where);
         $sql.= $where_res;
@@ -86,8 +88,9 @@ class User_model extends CI_Model
         if (empty($data)) {
             return FALSE;
         }
-        $query = $this->db->where("email", $data['login'])
-            ->get("users");
+        $query = $this->db->select("u.*, r.name as role_name",FALSE)->where("email", $data['login'])
+            ->join("role r","r.id=u.role_id","LEFT")
+            ->get("users u");
         
         if ($query->num_rows() != 1) {
             return FALSE;

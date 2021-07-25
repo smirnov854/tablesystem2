@@ -26,9 +26,11 @@ $user_data = $this->session->userdata();
                     <div class="dropdown-menu" role="menu"></div>
                 </li>-->
             <?php endif; ?>
+            
 
         </ul>
     </div>
+    <span class="float-right text-white"><?=$user_data['name']."(".$user_data['role_name'].")"?></span>
     <a class="btn btn-danger float-right" href="/login/logout">x</a>
 </nav>
    

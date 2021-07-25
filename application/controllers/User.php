@@ -84,6 +84,7 @@ class User extends CI_Controller
             if(!$res_add){
                 throw new Exception("Ошибка добавления привязки объект-пользователь!", 3);
             }
+            
             $body = "Вы были зарегистрированы в системе.<br/>
                      Для входа перейдите по ссылке <a href='".$_SERVER['SERVER_NAME']."'>ссылке</a> используйте следующую информацию:<br/>                     
                      Имя пользователя: ".$common_info['email']."<br/>

@@ -1,3 +1,11 @@
 .datepicker{
     width: 200px!important;
 }
+tr.user_row{
+    height: 50px !important;
+    overflow: auto;
+}
+td.td_object_list{
+    height: 50px;
+    max-width: 50px;
+}

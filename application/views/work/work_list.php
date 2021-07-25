@@ -67,9 +67,13 @@
             <div class="clearfix"></div>
             <label>Все <input type="radio" id="all_btn" v-model="current_status" value="all"></label>
             <br/>
-            <label>В работе <input type="radio" id="in_work" v-model="current_status" value="in_work"></label>
+            <label>Новые <input type="radio" id="in_work" v-model="current_status" value="new"></label>
             <br/>
-            <label> Выполненные <input type="radio" id="done" v-model="current_status" value="done"></label>
+            <label>Выполненные <input type="radio" id="in_work" v-model="current_status" value="done"></label>
+            <br/>
+            <label>Проверенные <input type="radio" id="in_work" v-model="current_status" value="checked"></label>
+            <br/>
+            <label>Закрытые <input type="radio" id="done" v-model="current_status" value="closed"></label>
         </div>        
         <div class="form-group col-lg-4 float-left">
             <button class="btn btn-success search_button" v-on:click="search(0)">Найти</button>
@@ -97,7 +101,7 @@
             <div class="block col-lg-4 col-md-4 col-sm-6 float-left">
                 <div class="col-lg-12">Работы</div>
                 <div class="col-lg-12">
-                    <textarea v-if="user_role_id==4" class="form-control" v-model="request.done_work"></textarea>
+                    <textarea v-if="user_role_id==4" class="form-control" v-model="request.done_work" ></textarea>
                     <button class="btn btn-success btn-sm" v-if="user_role_id==4" v-on:click="save_cur_comment(request.id,index)"><i class="fa fa-check"></i></button>
                     <button class="btn btn-danger btn-sm" v-if="user_role_id==4" v-on:click="request.cur_comment=''"><i class="fa fa-times"></i></button>
                     <span v-if="user_role_id!=4 && request.done_work!=''">{{request.done_work}}</span>
@@ -196,8 +200,15 @@
                 },
                 <?php endforeach;?>
             ]
-        },
+        },        
         methods: {
+            clear_new_jon: function(){
+                console.log(1123)
+                el._data.new_job.description="";
+                el._data.new_job.date_done="";
+                el._data.new_job.object_id="";
+                el._data.new_job.type_id="";             
+            },
             add_new_job: function (new_job) {
                 document.querySelector("#close_add_job").click();
                 let error_file_message = "Недопустимое расширение файла! Допускается pdf,gif, jpg,png"
@@ -238,13 +249,12 @@
                         case 200:
                             if (is_exist) {
                                 axios.post("/work/upload_file/" + result.data.request_id, formData,
-                                    {
-                                        headers: {
+                                    {                                        headers: {
                                             'Content-Type': 'multipart/form-data'
                                         }
                                     }).then(function (response) {
                                     switch (response.data.status) {
-                                        case 200:
+                                        case 200:                                            
                                             document.querySelector("#close_add_job").click();
                                             alert("Успешно добавлено!");
                                             break;
@@ -255,7 +265,7 @@
                                 }, (error) => {
                                     alert("Ошибка обращения к серверу!")
                                 });
-                            } else {
+                            } else {                                
                                 alert("Успешно добавлено!");
                             }
                             break;
@@ -263,6 +273,7 @@
                             alert(result.data.message);
                             break;
                     }
+                    el.clear_new_jon();
                     el.search(0);
                 }).catch(function (e) {
                     console.log(e)

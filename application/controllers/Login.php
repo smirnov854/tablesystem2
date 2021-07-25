@@ -50,6 +50,7 @@ class Login extends CI_Controller {
                 "name" => $user->name,
                 "email" => $user->email,
                 "role_id" => $user->role_id,
+                "role_name"=>$user->role_name
             ];
             
             $this->session->set_userdata($session_array);

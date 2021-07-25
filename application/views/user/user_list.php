@@ -29,18 +29,18 @@
             <th>Почта</th>
             <th>ФИО</th>
             <th>Роль</th>
-           <!-- <th>Объекты</th>-->
+            <th>Объекты</th>
             <th>Действия</th>
         </tr>
         </thead>
         <tbody>
 
-        <tr v-for="(user, index) in users">
+        <tr class="user_row" v-for="(user, index) in users">
             <td>{{user.id}}</td>
             <td>{{user.email}}</td>
             <td>{{user.name}}</td>
             <td>{{user.role_name}}</td>
-            <!--<td>{{user.object_cnt}}</td>-->
+            <td class="td_object_list" height="50px" v-bind:title="user.object_names_title">{{user.object_names}}</td>
             <td>
                 <span class="fa fa-pencil edit-user" v-on:click="edit_user(user.id,user.email,user.name,user.role_name,user.object_ids,user.role_id)"></span>
                 <span class="fa fa-remove edit-user float-right" v-on:click="delete_user(index,user.id)"></span>
@@ -113,6 +113,8 @@
                     email: '<?=$row->email?>',
                     role_id: '<?=$row->role_id?>',
                     role_name: '<?=$row->role_name?>',
+                    object_names : '<?=$row->object_names?>',
+                    object_names_title : '<?=$row->object_names_title?>',
                     object_cnt: '<?= !empty($row->object_cnt) ? $row->object_cnt : ""?>',
                     object_ids: '<?= !empty($row->object_ids) ? $row->object_ids : ""?>'
                 },
@@ -140,7 +142,7 @@
                 if (this.new_user.edit_id != 0) {
                     url = "/user/edit_user/" + this.new_user.edit_id;
                 }
-                document.querySelector(".close_dialog").click();
+                
                 axios.post(url, {
                     user_name: new_user.user_name,
                     role_id: new_user.role_id,
@@ -149,7 +151,9 @@
                     objects: new_user.objects
                 }).then(function (result) {
                     switch (result.data.status) {
-                        case 200:  
+                        case 200:
+                            alert("Успешно добавлено!");
+                            document.querySelector(".close_dialog").click();
                             el.search(1);
                             break;
                         case 300:
