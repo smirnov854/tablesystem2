@@ -185,6 +185,7 @@ class Work extends CI_Controller
         $params = json_decode(file_get_contents('php://input'));
         try {
             $search_params = [
+                "status"=>$params->current_status,
                 "objects" => $params->objects_id,
                 "date_from" => $params->date_from,
                 "date_to" => $params->date_to,

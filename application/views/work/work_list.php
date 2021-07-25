@@ -34,18 +34,19 @@
         }
     });
 </script>
-<style>   
+<style>
     .img_container img {
         max-height: 30px;
         max-width: 30px;
         float: left;
     }
-    .block{
-        max-height: 130px!important;
+
+    .block {
+        max-height: 130px !important;
         min-height: 50px;
         overflow: auto;
         margin-top: 10px;
-    }    
+    }
 </style>
 
 
@@ -63,7 +64,13 @@
             <div class="clearfix"></div>
             <label for="date_end" class="col-lg-3 float-left">Дата по</label>
             <date-picker class="form-control float-left datepicker my-1 col-lg-9" v-model='date_to' :config='options'></date-picker>
-        </div>
+            <div class="clearfix"></div>
+            <label>Все <input type="radio" id="all_btn" v-model="current_status" value="all"></label>
+            <br/>
+            <label>В работе <input type="radio" id="in_work" v-model="current_status" value="in_work"></label>
+            <br/>
+            <label> Выполненные <input type="radio" id="done" v-model="current_status" value="done"></label>
+        </div>        
         <div class="form-group col-lg-4 float-left">
             <button class="btn btn-success search_button" v-on:click="search(0)">Найти</button>
             <button class="btn btn-primary add_job" data-toggle="modal" data-target="#add_job">Добавить</button>
@@ -79,10 +86,10 @@
                 <div class="col-lg-11">Наименование объекта:{{request.object_name}}</div>
             </div>
             <div class="block col-lg-3 col-md-6 col-sm-6 float-left">
-                <div>Добавлена <span class="float-right">{{request.date_add}}</span></div>
-                <div v-if="request.date_done">Выполнил <span class="float-right">{{request.date_done}}</span></div>
-                <div v-if="request.user_check_date">Проверил <span class="float-right">{{request.user_check_date}}</span></div>
-                <div v-if="request.common_date">Принял <span class="float-right">{{request.common_date}}</span></div>
+                <div>Добавлена <span class="float-right">{{request.add_user_name}} {{request.date_add}}</span></div>
+                <div v-if="request.user_done_date">Выполнил <span class="float-right">{{request.user_done_date}} {{request.user_done_date}}</span></div>
+                <div v-if="request.user_check_date">Проверил <span class="float-right">{{request.user_check}} {{request.user_check_date}}</span></div>
+                <div v-if="request.common_check_user">Принял <span class="float-right">{{request.common_check_user}} {{request.common_date}}</span></div>
             </div>
             <div class="block col-lg-5 col-md-6 col-sm-12 float-left">
                 <div class="class col-lg-12">Описание:{{request.description}}</div>
@@ -94,7 +101,7 @@
                     <button class="btn btn-success btn-sm" v-if="user_role_id==4" v-on:click="save_cur_comment(request.id,index)"><i class="fa fa-check"></i></button>
                     <button class="btn btn-danger btn-sm" v-if="user_role_id==4" v-on:click="request.cur_comment=''"><i class="fa fa-times"></i></button>
                     <span v-if="user_role_id!=4 && request.done_work!=''">{{request.done_work}}</span>
-                </div> 
+                </div>
             </div>
             <div class="block  col-lg-4 col-md-4 col-sm-6 float-left img_container">
                 <span class="float-left">Фото  : </span>
@@ -106,8 +113,8 @@
                 </button>
                 <button class="btn btn-success btn-sm" v-if="user_role_id==2 && request.common_date=='' && request.user_check_date!=''" v-on:click="update_check_date(request.id,index,'common_date')"><i class="fa fa-check"></i></button>
             </div>
-        </div>      
-        
+        </div>
+
         <paginator v-bind:pages="pages"></paginator>
     </div>
     <?php $this->load->view("work/gallery_modal") ?>
@@ -144,6 +151,7 @@
             file_1: "",
             cur_file_upload: [],
             cur_photo: "",
+            current_status: "all",
             new_job: {
                 type_id: '',
                 object_id: '',
@@ -168,7 +176,8 @@
                 {
                     id: <?=$row->id?>,
                     description: '<?=$row->description?>',
-                    date_add: '<?=date("d.m.Y H:i", $row->date_add)?>',
+                    add_user_name: '<?=$row->add_user_name?>',
+                    date_add: '<?= $row->date_add?>',
                     object_name: '<?=$row->object_name?>',
                     file_path: [
                         <?php foreach(explode("||", $row->file_path) as $cur_file):?>
@@ -178,9 +187,12 @@
                         <?php endforeach;?>
                     ],
                     done_work: '<?=!empty($row->done_work) ? $row->done_work : ""?>',
-                    date_done: '<?=!empty($row->user_done_date) ? date("d.m.Y H:i", $row->user_done_date) : ""?>',
-                    user_check_date: '<?=!empty($row->user_check_date) ? date("d.m.Y H:i", $row->user_check_date) : ""?>',
-                    common_date: '<?=!empty($row->common_date) ? date("d.m.Y H:i", $row->common_date) : ""?>',
+                    user_done_date: '<?=!empty($row->user_done_date) ? $row->user_done_date : ""?>',
+                    done_user: '<?=$row->done_user?>',
+                    user_check_date: '<?=!empty($row->user_check_date) ? $row->user_check_date : ""?>',
+                    check_user: '<?=$row->check_user?>',
+                    common_date: '<?=!empty($row->common_date) ? $row->common_date : ""?>',
+                    common_check_user: '<?=$row->common_check_user?>',
                 },
                 <?php endforeach;?>
             ]
@@ -215,7 +227,7 @@
                         }
                         is_exist = this.$refs.file.value;
                     }
-                }                
+                }
                 axios.post("/work/add_new_job", {
                     type: this._data.new_job.type_id,
                     description: this._data.new_job.description,
@@ -224,7 +236,7 @@
                 }).then(function (result) {
                     switch (result.data.status) {
                         case 200:
-                            if (is_exist) {                               
+                            if (is_exist) {
                                 axios.post("/work/upload_file/" + result.data.request_id, formData,
                                     {
                                         headers: {
@@ -244,9 +256,9 @@
                                     alert("Ошибка обращения к серверу!")
                                 });
                             } else {
-                               
+
                                 alert("Успешно добавлено!");
-                            }                            
+                            }
                             break;
                         case 300:
                             alert(result.data.message);
@@ -330,16 +342,18 @@
                     objects_id: this.search_object_id,
                     date_from: this.date_from,
                     date_to: this.date_to,
+                    current_status: this.current_status,
                 }).then(function (result) {
                     switch (result.data.status) {
                         case 200:
-                            el._data.requests.splice(0, el._data.requests.length + 1)
+                            el._data.requests.splice()
                             let tmp_file_path = [];
                             for (var z in result.data.content) {
                                 if (result.data.content[z].file_path !== null) {
                                     tmp_file_path = result.data.content[z].file_path.split('||')
+                                    result.data.content[z].file_path = tmp_file_path;
                                 }
-                                var newReq = {
+                                /*var newReq = {
                                     id: result.data.content[z].id,
                                     object_name: result.data.content[z].object_name,
                                     date_add: result.data.content[z].date_add,
@@ -347,8 +361,9 @@
                                     file_path: tmp_file_path
                                 }
                                 el._data.requests.push(newReq);
-                                tmp_file_path = []
+                                tmp_file_path = []*/
                             }
+                            el._data.requests = result.data.content;
                             break;
                         case 300:
                             break;

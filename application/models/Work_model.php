@@ -31,9 +31,15 @@ class Work_model extends CI_Model
     public function get_list($search_params = "")
     {
         extract($search_params);        
-        $sql = "SELECT SQL_CALC_FOUND_ROWS req.*, 
-                       GROUP_CONCAT(rf.file_path SEPARATOR '||') as file_path,
-                       req.date_add as date_add,
+        $sql = "SELECT SQL_CALC_FOUND_ROWS 
+                       req.id,
+                       req.type_of_work,
+                       req.description,
+                       IF(user_done_date IS NOT NULL AND user_done_date!=0,FROM_UNIXTIME(user_done_date),'') as user_done_date,
+                       IF(date_add IS NOT NULL AND date_add!=0,FROM_UNIXTIME(date_add),'') as date_add,
+                       IF(common_date IS NOT NULL AND common_date!=0,FROM_UNIXTIME(common_date),'') as common_date,
+                       IF(user_check_date IS NOT NULL AND user_check_date!=0,FROM_UNIXTIME(user_check_date),'') as user_check_date, 
+                       GROUP_CONCAT(rf.file_path SEPARATOR '||') as file_path,                      
                        o.name as object_name, 
                        usr.name as add_user_name, 
                        usr1.name as done_user,
@@ -60,7 +66,20 @@ class Work_model extends CI_Model
 
             if(!empty($date_to)){
                 $where[] = " date_add< ".strtotime($date_to);
-            }            
+            }   
+            
+            if(!empty($status)){
+                switch($status){
+                    case "all":
+                        break;
+                    case "in_work":
+                        $where[] = " (user_done_date IS NULL OR user_done_date=0)";
+                        break;
+                    case "done":
+                        $where[] = " (user_done_date IS NOT NULL AND user_done_date<>0)";
+                        break;
+                }
+            }
         }
         
         if($role_id != 1){
