@@ -7,6 +7,7 @@
             </div>
             <div class="modal-body">
                 <img style='max-height: 700px;max-width: 700px;object-fit: cover' v-bind:src="cur_photo">
+                <img style='max-height: 100%;max-width: 100%;object-fit: cover' v-bind:src="cur_photo">
             </div> 
             <div class="modal-footer">
                 <button class="btn btn-danger close_dialog float-left" data-dismiss="modal">Закрыть</button>
