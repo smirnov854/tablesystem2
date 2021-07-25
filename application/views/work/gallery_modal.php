@@ -1,6 +1,6 @@
 <div id="cur_photo_dialog" class="modal  fade" role="dialog" tabindex="-1" aria-hidden="true" >
-    <div class="modal-dialog modal-lg" role="document" style="max-height: 80%">
-        <div class="modal-content">
+    <div class="modal-dialog modal-lg" role="document" >
+        <div class="modal-content" style="max-height: 80%">
             <div class="modal-header">
                 <div class="modal-title">
                 </div>
