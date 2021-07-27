@@ -77,7 +77,7 @@ class Work_model extends CI_Model
                         $where[] = " (user_done_date IS NULL OR user_done_date=0) ";
                         break;
                     case "done":
-                        $where[] = " ((user_done_date>0 AND (user_check_date IS NULL OR user_check_date=0)) ";
+                        $where[] = " (user_done_date>0 AND (user_check_date IS NULL OR user_check_date=0)) ";
                         break;
                     case "checked":
                         $where[] = " (user_check_date>0 AND (common_date IS NULL OR common_date=0)) ";
