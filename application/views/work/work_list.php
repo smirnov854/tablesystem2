@@ -91,8 +91,8 @@
             </div>
             <div class="block col-lg-3 col-md-6 col-sm-6 float-left">
                 <div>Добавлена <span class="float-right">{{request.add_user_name}} {{request.date_add}}</span></div>
-                <div v-if="request.user_done_date">Выполнил <span class="float-right">{{request.user_done_date}} {{request.user_done_date}}</span></div>
-                <div v-if="request.user_check_date">Проверил <span class="float-right">{{request.user_check}} {{request.user_check_date}}</span></div>
+                <div v-if="request.user_done_date">Выполнил <span class="float-right">{{request.done_user}} {{request.user_done_date}}</span></div>
+                <div v-if="request.user_check_date">Проверил <span class="float-right">{{request.check_user}} {{request.user_check_date}}</span></div>
                 <div v-if="request.common_check_user">Принял <span class="float-right">{{request.common_check_user}} {{request.common_date}}</span></div>
             </div>
             <div class="block col-lg-5 col-md-6 col-sm-12 float-left">
@@ -113,7 +113,7 @@
                 <input v-if="request.file_path=='' && user_role_id==4" type="file" v-bind:ref="'file_'+index" v-model='cur_file_upload[index]' v-on:change="save_cur_files(request.id,index)" multiple>
             </div>
             <div class="block  col-lg-2 col-md-2 col-sm-2 float-left">
-                <button class="btn btn-success btn-sm" v-if="user_role_id==3 && request.user_check_date=='' && request.date_done!=''" v-on:click="update_check_date(request.id,index,'user_check_date')"><i class="fa fa-check"></i>
+                <button class="btn btn-success btn-sm" v-if="user_role_id==3 && request.user_check_date=='' && request.user_done_date!=''" v-on:click="update_check_date(request.id,index,'user_check_date')"><i class="fa fa-check"></i>
                 </button>
                 <button class="btn btn-success btn-sm" v-if="user_role_id==2 && request.common_date=='' && request.user_check_date!=''" v-on:click="update_check_date(request.id,index,'common_date')"><i class="fa fa-check"></i></button>
             </div>
@@ -389,9 +389,11 @@
                 }).then(function (result) {
                     switch (result.data.status) {
                         case 200:
+                            alert("Успешно добавлено!")
                             el._data.requests[index].done_work = el._data.requests[index].done_work;
                             break;
                         case 300:
+                            alert("Ошибка добавления!")
                             break;
                     }
                 }).catch(function (e) {
