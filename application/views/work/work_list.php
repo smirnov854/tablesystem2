@@ -390,6 +390,8 @@
                     switch (result.data.status) {
                         case 200:
                             alert("Успешно добавлено!")
+                            console.log(el._data.requests[index]);
+                            console.log(result.content);
                             el._data.requests[index] = result.content;
                             break;
                         case 300:
