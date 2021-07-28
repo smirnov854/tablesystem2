@@ -394,7 +394,7 @@
                             console.log(result.content);
                             el._data.requests[index] = result.data.content;
                             break;
-                        case 300:
+                        case 300: 
                             alert("Ошибка добавления!")
                             break;
                     }
