@@ -231,12 +231,15 @@ class Work extends CI_Controller
             $search_params = [                
                 "role_id" => $user_data['role_id'],
                 "user_id" => $user_data['id'],
-                'id'=>$id
+                'id'=>$id,
+                "limit"=>1,
+                "offset"=>0
             ];
             $res = $this->work_model->get_list($search_params);
             $result = [
                 "status" => 200,    
                 "content"=>$res[0],
+                
             ];
         } catch (Exception $ex) {
             $result = array("message" => $ex->getMessage(),
