@@ -239,7 +239,6 @@ class Work extends CI_Controller
             $result = [
                 "status" => 200,    
                 "content"=>$res[0],
-                
             ];
         } catch (Exception $ex) {
             $result = array("message" => $ex->getMessage(),

@@ -392,7 +392,7 @@
                             alert("Успешно добавлено!")
                             console.log(el._data.requests[index]);
                             console.log(result.content);
-                            el._data.requests[index] = result.content;
+                            el._data.requests[index] = result.data.content;
                             break;
                         case 300:
                             alert("Ошибка добавления!")
