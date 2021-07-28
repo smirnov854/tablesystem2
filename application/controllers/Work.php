@@ -227,9 +227,11 @@ class Work extends CI_Controller
             $res = $this->work_model->update_by_id($id,$update_param);
             if ($res === FALSE) {
                 throw new Exception("Ошибка обращения к БД!", 300);
-            }           
+            }   
+            $res = $this->work_model->get_list(['id'=>$id]);
             $result = [
-                "status" => 200,                
+                "status" => 200,    
+                "content"=>$res[0],
             ];
         } catch (Exception $ex) {
             $result = array("message" => $ex->getMessage(),

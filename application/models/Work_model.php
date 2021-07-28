@@ -57,6 +57,9 @@ class Work_model extends CI_Model
                 ";        
         $where = [];
         if(!empty($search_params)){
+            if(!empty($id)){
+                $where[] = " req.id=$id ";                
+            }
             if(!empty($objects)){
                 $object_string = implode(",",$objects);
                 $where[] =" o.id IN ($object_string)";
@@ -87,6 +90,7 @@ class Work_model extends CI_Model
                         break;
                 }
             }
+            
         }
         
         if($role_id != 1){

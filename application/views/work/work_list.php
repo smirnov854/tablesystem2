@@ -390,7 +390,7 @@
                     switch (result.data.status) {
                         case 200:
                             alert("Успешно добавлено!")
-                            el._data.requests[index].done_work = el._data.requests[index].done_work;
+                            el._data.requests[index] = result.content;
                             break;
                         case 300:
                             alert("Ошибка добавления!")
