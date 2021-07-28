@@ -389,11 +389,9 @@
                 }).then(function (result) {
                     switch (result.data.status) {
                         case 200:
-                            alert("Успешно добавлено!")
-                            console.log(el._data.requests[index]);
-                            console.log(result.content);
-                            el._data.requests[index] = result.data.content;
-                            console.log(el._data.requests[index]);
+                            alert("Успешно добавлено!")                            
+                            el._data.requests[index].done_user = result.data.content.done_user;
+                            el._data.requests[index].user_done_date = result.data.content.user_done_date;                            
                             break;
                         case 300: 
                             alert("Ошибка добавления!")
