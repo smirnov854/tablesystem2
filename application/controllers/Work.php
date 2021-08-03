@@ -40,8 +40,11 @@ class Work extends CI_Controller
             "object_id" => $params->object_id,
             "date_add" => time(),
             "id_user_add" => $user_data['id'],
-            "user_done_date"=>strtotime($params->date_done)
+            "user_done_date"=>(!empty($params->date_done) ? strtotime($params->date_done) : '')
         );
+        if(!empty($params->date_done)){
+            $common_info['id_user_done'] = $user_data['id'];
+        }
         try {
             if (empty($common_info['type_id'])) {
                 throw new Exception("Ошибка заполнения формы!", 300);
@@ -165,6 +168,7 @@ class Work extends CI_Controller
         $request_list = $this->work_model->get_list($search_params);
 
         $total_rows = $this->db->query("SELECT FOUND_ROWS() as cnt")->result();
+
 
         $this->load->view('includes/header');
         $this->load->view("includes/menu");

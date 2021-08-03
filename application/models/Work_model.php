@@ -35,6 +35,7 @@ class Work_model extends CI_Model
                        req.done_work,
                        req.id,
                        req.type_of_work,
+                       tof.name as type_name, 
                        req.description,
                        IF(user_done_date IS NOT NULL AND user_done_date!=0,FROM_UNIXTIME(user_done_date),'') as user_done_date,
                        IF(date_add IS NOT NULL AND date_add!=0,FROM_UNIXTIME(date_add),'') as date_add,

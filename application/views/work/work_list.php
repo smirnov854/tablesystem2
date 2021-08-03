@@ -85,11 +85,12 @@
         <paginator v-bind:pages="pages"></paginator>
 
         <div class="border border-dark rounded mx-3 my-3 px-2 py-2" v-for="(request,index) in requests" style="display: table; width:100%">
-            <div class="block col-lg-4 col-md-6 col-sm-6 float-left">
+            <div class="block col-lg-3 col-md-6 col-sm-6 float-left">
                 <div class="col-lg-1">ID:{{request.id}}</div>
                 <div class="col-lg-11">Наименование объекта:{{request.object_name}}</div>
+                <div class="col-lg-11">Тип:{{request.type_name}}</div>
             </div>
-            <div class="block col-lg-3 col-md-6 col-sm-6 float-left">
+            <div class="block col-lg-4 col-md-6 col-sm-6 float-left">
                 <div>Добавлена <span class="float-right">{{request.add_user_name}} {{request.date_add}}</span></div>
                 <div v-if="request.user_done_date">Выполнил <span class="float-right">{{request.done_user}} {{request.user_done_date}}</span></div>
                 <div v-if="request.user_check_date">Проверил <span class="float-right">{{request.check_user}} {{request.user_check_date}}</span></div>
@@ -146,7 +147,20 @@
             current_page: 1,
             total_rows: <?=$total_rows?>,
             per_page: 25,
-            pages: <?=$total_rows > 25 ? '[1,2,3]' : '[]' ?>,
+            <?php
+            $pages = $total_rows%25;
+            $pages_str = [];
+            if($total_rows>25){
+                for($i = 1;$i<=$pages;$i++){
+                    $pages_str[] = $i;
+                }
+                $pages_str = "[".implode(",",$pages_str)."]";
+            }else{
+                $pages_str = "[]";
+            }
+
+            ?>
+            pages: <?=$pages_str?>,
             user_role_id: <?=$role_id?>,
             date_from: '',
             date_to: '',
@@ -197,6 +211,7 @@
                     check_user: '<?=$row->check_user?>',
                     common_date: '<?=!empty($row->common_date) ? $row->common_date : ""?>',
                     common_check_user: '<?=$row->common_check_user?>',
+                    type_name: '<?=$row->type_name?>'
                 },
                 <?php endforeach;?>
             ]
