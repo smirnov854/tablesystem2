@@ -88,7 +88,7 @@
             <div class="block col-lg-3 col-md-6 col-sm-6 float-left">
                 <div class="col-lg-1">ID:{{request.id}}</div>
                 <div class="col-lg-11">Наименование объекта:{{request.object_name}}</div>
-                <div class="col-lg-11">Тип:{{request.type_name}}</div>
+                <div class="col-lg-11">Тип:{{request.type_name}}</div> 
             </div>
             <div class="block col-lg-4 col-md-6 col-sm-6 float-left">
                 <div>Добавлена <span class="float-right">{{request.add_user_name}} {{request.date_add}}</span></div>
