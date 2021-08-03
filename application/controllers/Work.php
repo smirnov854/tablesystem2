@@ -231,7 +231,7 @@ class Work extends CI_Controller
             $res = $this->work_model->update_by_id($id,$update_param);
             if ($res === FALSE) {
                 throw new Exception("Ошибка обращения к БД!", 300);
-            }
+            } 
             $search_params = [                
                 "role_id" => $user_data['role_id'],
                 "user_id" => $user_data['id'],
