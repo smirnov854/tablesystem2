@@ -64,7 +64,7 @@ class Work_model extends CI_Model
             if(!empty($objects)){
                 $object_string = implode(",",$objects);
                 $where[] =" o.id IN ($object_string)";
-            }
+            } 
             if(!empty($date_from)){
                 $where[] = " date_add> ".strtotime($date_from);
             }
